@@ -2,10 +2,11 @@
 namespace Orbas\Stage;
 
 use \Illuminate\Support\ServiceProvider as Provider;
+
 use Orbas\Stage\Console\EnumMakeCommand;
 use Orbas\Stage\Console\PresenterMakeCommand;
 use Orbas\Stage\Navigation\Renderer;
-use Route;
+use Illuminate\Support\Facades\Route;
 
 class ServiceProvider extends Provider
 {
