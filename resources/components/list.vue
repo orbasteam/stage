@@ -31,7 +31,7 @@
             </thead>
             <tbody>
             <tr is="list-tr" :element="element" v-for="element in list"
-                @remove="remove" @update="update" :key="currentGroup"></tr>
+                @remove="remove" @update="update" :key="generateKey(element)"></tr>
             <tr>
                 <td>
                     <button class="button is-info is-outlined" @click="createElement">
@@ -54,6 +54,7 @@
 
     import _ from 'lodash';
     import ListTr from './listTr';
+    import randomString from 'randomstring';
 
     export default {
         props: ['elements'],
@@ -69,6 +70,14 @@
             }
         },
         methods: {
+            generateKey(element) {
+                
+                if (!element.key) {
+                    element.key = randomString.generate(7);
+                }
+                
+                return element.key;
+            },
             destroyGroup() {
 
                 let table = this.$root.table;
@@ -136,7 +145,7 @@
                 let group = this.currentGroup;
                 
                 if (column !== element.column) {
-                    
+
                     let elements = _.map(this.mutableElements[group], function(value) {
                         if (value.column === column) {
                             return element;
@@ -147,8 +156,6 @@
                     
                     this.$set(this.mutableElements, group, elements);
                 }
-                
-                this.$set(this.mutableElements[group], element.column, element);
             },
             remove(column) {
                 

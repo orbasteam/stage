@@ -15,7 +15,12 @@
             </span>
         </td>
         <td>
-            <input type="text" class="input" :placeholder="type" v-model="mutableProps.element.column" @input="update" />
+            <b-autocomplete
+                    v-model="mutableProps.element.column"
+                    :placeholder="type"
+                    :data="filterColumns"
+                    @input="update">
+            </b-autocomplete>
         </td>
         <td>
             <input type="text" class="input" v-model="mutableProps.element.name" :placeholder="defaultName" @input="update" />
@@ -59,14 +64,15 @@
                     formatter: element.formatter ? element.formatter : null,
                     column: element.column ? element.column : null
                 };
+
+                this.$emit('update', originColumn, item);
+                this.mutableProps.element = item;
+                this.mutableProps.column  = item.column;
                 
                 axios.put(this.updatePath(), {
                     column: originColumn,
                     data: item
                 }).then(() => {
-                    this.$emit('update', originColumn, item);
-                    this.mutableProps.element = item;
-                    this.mutableProps.column  = item.column;
                     this.loading = false;
                 });
 
@@ -79,6 +85,12 @@
             }
         },
         computed: {
+            filterColumns() {
+                let columns = _.keys(this.$root.columns);
+                return columns.filter((column) => {
+                    return column.toLowerCase().indexOf(this.mutableProps.element.column) >= 0;
+                });
+            },
             presenter() {
                 return this.type === 'presenter';
             },
