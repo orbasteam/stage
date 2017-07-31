@@ -40,20 +40,18 @@
 
             <div class="nav-right nav-menu">
                 <div class="nav-item">
-            <span class="select">
                 
-                <b-field>
-                    <p class="control">
-                        <span class="button is-static">Table</span>
-                    </p>
-                    <b-select placeholder="Select Table" @change="selectTable" v-model="table">
-                        @foreach($tables as $table)
-                            <option>{{$table}}</option>
-                        @endforeach
-                    </b-select>
-                </b-field>
+                    <b-field>
+                        <p class="control">
+                            <span class="button is-static">Table</span>
+                        </p>
+                        <b-select placeholder="Select Table" @change="selectTable" v-model="table">
+                            @foreach($tables as $table)
+                                <option>{{$table}}</option>
+                            @endforeach
+                        </b-select>
+                    </b-field>
                 
-            </span>
                 </div>
             </div>
 

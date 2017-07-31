@@ -15,6 +15,7 @@ class ListService extends Service
     public function put($table, $group, $column, $data)
     {
         if (empty($data['column'])) {
+            $this->removeColumn($table, $group, $column);
             return;
         }
         

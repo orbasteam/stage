@@ -72,11 +72,11 @@
         methods: {
             generateKey(element) {
                 
-                if (!element.key) {
-                    element.key = randomString.generate(7);
+                if (!element.token) {
+                    element.token = randomString.generate(7);
                 }
                 
-                return element.key;
+                return element.token;
             },
             destroyGroup() {
 
@@ -157,23 +157,23 @@
                     this.$set(this.mutableElements, group, elements);
                 }
             },
-            remove(column) {
+            remove(element) {
                 
                 let table = this.$root.table;
                 let group = this.currentGroup;
                 
-                if (!column) {
-                    this._removeColumn(column);
+                if (!element.column) {
+                    this._removeColumn(element);
                     return;
                 }
                 
                 this.$dialog.confirm({
                     message: `Are you sure？ You won't be able to revert this!`,
                     onConfirm: () => {
-                        let url = this.$root.url('/list/destroy/' + table + '/' + group + '/' + column);
+                        let url = this.$root.url('/list/destroy/' + table + '/' + group + '/' + element.column);
                         axios.delete(url)
                             .then(() => {
-                                this._removeColumn(column);
+                                this._removeColumn(element);
                             }).catch((error) => {
                                 this.$toast.open({
                                     message: error.response.data,
@@ -183,12 +183,12 @@
                     }
                 });
             },
-            _removeColumn(column) {
+            _removeColumn(element) {
                 let group = this.currentGroup;
                 let key = _.findKey(this.mutableElements[group], function(data){
-                    return data['column'] === column;
+                    return data['token'] === element.token;
                 });
-
+                
                 this.mutableElements[group].splice(key, 1);
             }
         },

@@ -8,10 +8,10 @@
         </td>
         <td>
             <span class="select">
-                <select class="form-control" v-model="type" @input="update">
+                <b-select v-model="type" @input="update">
                     <option value="method">Column / Method</option>
                     <option value="presenter">Presenter</option>
-                </select>
+                </b-select>
             </span>
         </td>
         <td>
@@ -23,10 +23,10 @@
             </b-autocomplete>
         </td>
         <td>
-            <input type="text" class="input" v-model="mutableProps.element.name" :placeholder="defaultName" @input="update" />
+            <b-input v-model="mutableProps.element.name" :placeholder="defaultName" @input="update"></b-input>
         </td>
         <td>
-            <input type="text" class="input" v-model="mutableProps.element.formatter" @input="update" />
+            <b-input v-model="mutableProps.element.formatter" @input="update"></b-input>
         </td>
     </tr>
 </template>
@@ -62,26 +62,32 @@
                     name: element.name ? element.name : null,
                     presenter: this.type === 'presenter',
                     formatter: element.formatter ? element.formatter : null,
-                    column: element.column ? element.column : null
+                    column: element.column ? element.column : null,
+                    token: element.token
                 };
+
+                if (!item.column) {
+                    this.remove();
+                    return;
+                }
 
                 this.$emit('update', originColumn, item);
                 this.mutableProps.element = item;
                 this.mutableProps.column  = item.column;
-                
+
                 axios.put(this.updatePath(), {
                     column: originColumn,
                     data: item
                 }).then(() => {
                     this.loading = false;
                 });
-
+                
             }, 800),
             updatePath() {
                 return this.$root.url('/list/update/' + this.$root.table + '/' + this.$parent.currentGroup);
             },
             remove() {
-                this.$emit('remove', this.mutableProps.column);
+                this.$emit('remove', this.mutableProps.element);
             }
         },
         computed: {

@@ -33118,11 +33118,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     methods: {
         generateKey: function generateKey(element) {
 
-            if (!element.key) {
-                element.key = __WEBPACK_IMPORTED_MODULE_2_randomstring___default.a.generate(7);
+            if (!element.token) {
+                element.token = __WEBPACK_IMPORTED_MODULE_2_randomstring___default.a.generate(7);
             }
 
-            return element.key;
+            return element.token;
         },
         destroyGroup: function destroyGroup() {
             var _this = this;
@@ -33204,23 +33204,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 this.$set(this.mutableElements, group, elements);
             }
         },
-        remove: function remove(column) {
+        remove: function remove(element) {
             var _this3 = this;
 
             var table = this.$root.table;
             var group = this.currentGroup;
 
-            if (!column) {
-                this._removeColumn(column);
+            if (!element.column) {
+                this._removeColumn(element);
                 return;
             }
 
             this.$dialog.confirm({
                 message: 'Are you sure\uFF1F You won\'t be able to revert this!',
                 onConfirm: function onConfirm() {
-                    var url = _this3.$root.url('/list/destroy/' + table + '/' + group + '/' + column);
+                    var url = _this3.$root.url('/list/destroy/' + table + '/' + group + '/' + element.column);
                     axios.delete(url).then(function () {
-                        _this3._removeColumn(column);
+                        _this3._removeColumn(element);
                     }).catch(function (error) {
                         _this3.$toast.open({
                             message: error.response.data,
@@ -33230,10 +33230,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 }
             });
         },
-        _removeColumn: function _removeColumn(column) {
+        _removeColumn: function _removeColumn(element) {
             var group = this.currentGroup;
             var key = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.findKey(this.mutableElements[group], function (data) {
-                return data['column'] === column;
+                return data['token'] === element.token;
             });
 
             this.mutableElements[group].splice(key, 1);
@@ -33330,8 +33330,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 name: element.name ? element.name : null,
                 presenter: this.type === 'presenter',
                 formatter: element.formatter ? element.formatter : null,
-                column: element.column ? element.column : null
+                column: element.column ? element.column : null,
+                token: element.token
             };
+
+            if (!item.column) {
+                this.remove();
+                return;
+            }
 
             this.$emit('update', originColumn, item);
             this.mutableProps.element = item;
@@ -33348,7 +33354,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             return this.$root.url('/list/update/' + this.$root.table + '/' + this.$parent.currentGroup);
         },
         remove: function remove() {
-            this.$emit('remove', this.mutableProps.column);
+            this.$emit('remove', this.mutableProps.element);
         }
     },
     computed: {
@@ -42493,25 +42499,16 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }) : _vm._e()], 1)]), _vm._v(" "), _c('td', [_c('span', {
     staticClass: "select"
-  }, [_c('select', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.type),
-      expression: "type"
-    }],
-    staticClass: "form-control",
+  }, [_c('b-select', {
     on: {
-      "input": _vm.update,
-      "change": function($event) {
-        var $$selectedVal = Array.prototype.filter.call($event.target.options, function(o) {
-          return o.selected
-        }).map(function(o) {
-          var val = "_value" in o ? o._value : o.value;
-          return val
-        });
-        _vm.type = $event.target.multiple ? $$selectedVal : $$selectedVal[0]
-      }
+      "input": _vm.update
+    },
+    model: {
+      value: (_vm.type),
+      callback: function($$v) {
+        _vm.type = $$v
+      },
+      expression: "type"
     }
   }, [_c('option', {
     attrs: {
@@ -42521,7 +42518,7 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "value": "presenter"
     }
-  }, [_vm._v("Presenter")])])])]), _vm._v(" "), _c('td', [_c('b-autocomplete', {
+  }, [_vm._v("Presenter")])])], 1)]), _vm._v(" "), _c('td', [_c('b-autocomplete', {
     attrs: {
       "placeholder": _vm.type,
       "data": _vm.filterColumns
@@ -42536,48 +42533,32 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "mutableProps.element.column"
     }
-  })], 1), _vm._v(" "), _c('td', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
-      value: (_vm.mutableProps.element.name),
-      expression: "mutableProps.element.name"
-    }],
-    staticClass: "input",
+  })], 1), _vm._v(" "), _c('td', [_c('b-input', {
     attrs: {
-      "type": "text",
       "placeholder": _vm.defaultName
     },
-    domProps: {
-      "value": (_vm.mutableProps.element.name)
-    },
     on: {
-      "input": [function($event) {
-        if ($event.target.composing) { return; }
-        _vm.mutableProps.element.name = $event.target.value
-      }, _vm.update]
+      "input": _vm.update
+    },
+    model: {
+      value: (_vm.mutableProps.element.name),
+      callback: function($$v) {
+        _vm.mutableProps.element.name = $$v
+      },
+      expression: "mutableProps.element.name"
     }
-  })]), _vm._v(" "), _c('td', [_c('input', {
-    directives: [{
-      name: "model",
-      rawName: "v-model",
+  })], 1), _vm._v(" "), _c('td', [_c('b-input', {
+    on: {
+      "input": _vm.update
+    },
+    model: {
       value: (_vm.mutableProps.element.formatter),
+      callback: function($$v) {
+        _vm.mutableProps.element.formatter = $$v
+      },
       expression: "mutableProps.element.formatter"
-    }],
-    staticClass: "input",
-    attrs: {
-      "type": "text"
-    },
-    domProps: {
-      "value": (_vm.mutableProps.element.formatter)
-    },
-    on: {
-      "input": [function($event) {
-        if ($event.target.composing) { return; }
-        _vm.mutableProps.element.formatter = $event.target.value
-      }, _vm.update]
     }
-  })])])
+  })], 1)])
 },staticRenderFns: []}
 module.exports.render._withStripped = true
 if (false) {
