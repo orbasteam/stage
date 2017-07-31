@@ -33321,23 +33321,26 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         update: __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.debounce(function () {
             var _this = this;
 
-            this.loading = true;
-
             var element = this.mutableProps.element;
             var originColumn = this.mutableProps.column;
 
-            var item = {
-                name: element.name ? element.name : null,
-                presenter: this.type === 'presenter',
-                formatter: element.formatter ? element.formatter : null,
-                column: element.column ? element.column : null,
-                token: element.token
-            };
+            // remove column
+            if (!element.column) {
 
-            if (!item.column) {
+                if (!originColumn) {
+                    return;
+                }
+
                 this.remove();
-                return;
             }
+
+            this.loading = true;
+
+            var item = {};
+            __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.each(['name', 'formatter', 'column', 'token'], function (field) {
+                item[field] = element[field] ? element[field] : null;
+            });
+            item.presenter = this.type === 'presenter';
 
             this.$emit('update', originColumn, item);
             this.mutableProps.element = item;

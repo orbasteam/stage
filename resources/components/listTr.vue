@@ -53,23 +53,26 @@
         methods: {
             update: _.debounce(function () {
                 
-                this.loading = true;
-                
                 let element = this.mutableProps.element;
                 let originColumn = this.mutableProps.column;
 
-                let item = {
-                    name: element.name ? element.name : null,
-                    presenter: this.type === 'presenter',
-                    formatter: element.formatter ? element.formatter : null,
-                    column: element.column ? element.column : null,
-                    token: element.token
-                };
+                // remove column
+                if (!element.column) {
+                    
+                    if (!originColumn) {
+                        return
+                    }
 
-                if (!item.column) {
                     this.remove();
-                    return;
                 }
+
+                this.loading = true;
+
+                let item = {};
+                _.each(['name', 'formatter', 'column', 'token'], (field) => {
+                    item[field] = element[field] ? element[field] : null;
+                });
+                item.presenter = this.type === 'presenter';
 
                 this.$emit('update', originColumn, item);
                 this.mutableProps.element = item;
