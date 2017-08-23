@@ -23,5 +23,8 @@
         "mockery/mockery": "0.9.*",
         "laravel/framework": "5.4.*",
         "graham-campbell/testbench": "^3.4"
+    },
+    "require": {
+        "orbas/util": "^0.2.0"
     }
 }

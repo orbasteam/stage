@@ -3,8 +3,6 @@ namespace Orbas\Stage;
 
 use \Illuminate\Support\ServiceProvider as Provider;
 
-use Orbas\Stage\Console\EnumMakeCommand;
-use Orbas\Stage\Console\PresenterMakeCommand;
 use Orbas\Stage\Navigation\Renderer;
 use Illuminate\Support\Facades\Route;
 
@@ -32,8 +30,6 @@ class ServiceProvider extends Provider
         
         $this->registerTable();
         $this->registerNavigation();
-        $this->registerCommands();
-        $this->registerEnum();
         $this->registerRoute();
         
         $this->app->singleton('stage.storage', function($app) {
@@ -53,14 +49,6 @@ class ServiceProvider extends Provider
         Navigation::rendererResolver(function() {
             return new Renderer();
         });
-    }
-
-    /**
-     * Register Commands
-     */
-    protected function registerCommands()
-    {
-        $this->commands([EnumMakeCommand::class, PresenterMakeCommand::class]);
     }
 
     protected function bootTable()
@@ -105,12 +93,5 @@ class ServiceProvider extends Provider
             ->namespace($namespace)
             ->name('stage-setup.')
             ->group( __DIR__ . '/routes.php');
-    }
-
-    protected function registerEnum()
-    {
-        $this->app->singleton('enum', function($app) {
-            return new Enum('App\\Enums');
-        });
     }
 }

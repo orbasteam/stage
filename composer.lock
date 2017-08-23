@@ -4,8 +4,47 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "7e6b28d78506be10efbdd14114aea4dc",
-    "packages": [],
+    "content-hash": "4b557958b94d59d2aac2bdc269942b1e",
+    "packages": [
+        {
+            "name": "orbas/util",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/orbasteam/util.git",
+                "reference": "bf3c86409068d832973fe33dcbd50e87797cdc6b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/orbasteam/util/zipball/bf3c86409068d832973fe33dcbd50e87797cdc6b",
+                "reference": "bf3c86409068d832973fe33dcbd50e87797cdc6b",
+                "shasum": ""
+            },
+            "require-dev": {
+                "graham-campbell/testbench": "^3.4",
+                "mockery/mockery": "0.9.*",
+                "phpunit/phpunit": "~5.7"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Orbas\\Util\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "IvanWu",
+                    "email": "flash662@gmail.com"
+                }
+            ],
+            "description": "a library for laravel",
+            "time": "2017-08-09T00:54:03+00:00"
+        }
+    ],
     "packages-dev": [
         {
             "name": "doctrine/inflector",

@@ -21,6 +21,7 @@ class StageTestCase extends AbstractPackageTestCase
 
     /**
      * @param string $class
+     * @param string|null $abstract
      *
      * @return Mockery\MockInterface
      */
@@ -35,6 +36,7 @@ class StageTestCase extends AbstractPackageTestCase
 
         return $mock;
     }
+    
     protected function tearDown()
     {
         parent::tearDown();
