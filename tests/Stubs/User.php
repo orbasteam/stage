@@ -3,7 +3,7 @@ namespace Tests\Stubs;
 
 use Illuminate\Database\Eloquent\Model;
 
-use Orbas\Stage\Traits\Presenter;
+use Orbas\Util\Traits\Presenter;
 use Tests\Stubs\Presenter\UserPresenter;
 
 class User extends Model
