@@ -9,8 +9,8 @@
         <td>
             <span class="select">
                 <b-select v-model="element.presenter" @input="update">
-                    <option value="false">Column / Method</option>
-                    <option value="true">Presenter</option>
+                    <option :value="0">Column / Method</option>
+                    <option :value="1">Presenter</option>
                 </b-select>
             </span>
         </td>
@@ -68,7 +68,7 @@
             }
         },
         mounted() {
-            let presenter = this.element.presenter ? this.element.presenter : false;
+            let presenter = this.element.presenter ? this.element.presenter : 0;
             this.$set(this.element, 'presenter', presenter);
         }
     }
