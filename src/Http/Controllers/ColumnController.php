@@ -41,6 +41,6 @@ class ColumnController extends Controller
      */
     public function update($table, Request $request)
     {
-        $this->service->put($table, $request->column, $request->data);
+        $this->service->put($table, $request->data);
     }
 }

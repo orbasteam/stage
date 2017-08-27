@@ -31,7 +31,7 @@
             </thead>
             <tbody>
             <tr is="list-tr" :element="element" v-for="element in list"
-                @remove="remove" @update="update" :key="generateKey(element)"></tr>
+                @remove="remove" @update="updateList" :key="generateKey(element)"></tr>
             <tr>
                 <td>
                     <button class="button is-info is-outlined" @click="createElement">
@@ -60,16 +60,41 @@
         props: ['elements'],
         data() {
             return {
-                currentGroup: 'default',
-                mutableElements: this.elements
-            }
-        },
-        watch: {
-            elements() {
-                this.mutableElements = this.elements;
+                currentGroup: 'default'
             }
         },
         methods: {
+            
+            updateListPath() {
+                return this.$root.url('/list/update/' + this.$root.table + '/' + this.currentGroup);
+            },
+
+            updateList: _.debounce(function () {
+                
+                this.$root.startAjaxLoading();
+                let items = [];
+                
+                _.map(this.list, (element) => {
+                    
+                    let item = {};
+                    _.each(['name', 'formatter', 'column', 'token', 'presenter'], (field) => {
+                        if (element[field] !== undefined) {
+                            item[field] = element[field];
+                        }
+                    });
+                    items.push(item);
+                });
+
+                this.$set(this.elements, this.currentGroup, items);
+                
+                axios.put(this.updateListPath(), {
+                    data: items
+                }).then(() => {
+                    this.$root.finishAjaxLoading();
+                });
+
+            }, 800),
+            
             generateKey(element) {
                 
                 if (!element.token) {
@@ -97,7 +122,7 @@
                         let url = this.$root.url('/list/destroyGroup/' + table + '/' + group);
                         axios.delete(url)
                             .then(() => {
-                                this.$delete(this.mutableElements, group);
+                                this.$delete(this.elements, group);
                                 this.currentGroup = this.groups.find((element) => {
                                     return !!element;
                                 });
@@ -113,10 +138,10 @@
             createElement() {
                 
                 if (!this.elements[this.currentGroup]) {
-                    this.$set(this.mutableElements, this.currentGroup, []);
+                    this.$set(this.elements, this.currentGroup, []);
                 }
 
-                this.mutableElements[this.currentGroup].push({});
+                this.elements[this.currentGroup].push({});
             },
             createGroup() {
 
@@ -130,74 +155,40 @@
                         axios.post(url, {
                             group: group
                         }).then(() => {
-                            this.$set(this.mutableElements, group, []);
+                            this.$set(this.elements, group, []);
                             this.currentGroup = group;
                         }).catch(() => {
                             this.$toast.open({
-                                message: 'oops! something is error',
+                                message: 'Oops! something went wrong.',
                                 type: 'is-danger'
                             })
                         });
                     }
                 });
             },
-            update(column, element) {
-                let group = this.currentGroup;
-                
-                if (column !== element.column) {
-
-                    let elements = _.map(this.mutableElements[group], function(value) {
-                        if (value.column === column) {
-                            return element;
-                        }
-                        
-                        return value;
-                    });
-                    
-                    this.$set(this.mutableElements, group, elements);
-                }
-            },
             remove(element) {
-                
-                let table = this.$root.table;
-                let group = this.currentGroup;
-                
-                if (!element.column) {
-                    this._removeColumn(element);
-                    return;
-                }
-                
-                this.$dialog.confirm({
-                    message: `Are you sure？ You won't be able to revert this!`,
-                    onConfirm: () => {
-                        let url = this.$root.url('/list/destroy/' + table + '/' + group + '/' + element.column);
-                        axios.delete(url)
-                            .then(() => {
-                                this._removeColumn(element);
-                            }).catch((error) => {
-                                this.$toast.open({
-                                    message: error.response.data,
-                                    type: 'is-danger'
-                                });
-                            });
-                    }
-                });
+                this.updateList();
+                this._removeColumn(element);
             },
             _removeColumn(element) {
                 let group = this.currentGroup;
-                let key = _.findKey(this.mutableElements[group], function(data){
+                let key = _.findKey(this.elements[group], function(data){
                     return data['token'] === element.token;
                 });
                 
-                this.mutableElements[group].splice(key, 1);
+                this.elements[group].splice(key, 1);
             }
         },
-        computed: {
+        asyncComputed: {
             list() {
-                return this.mutableElements[this.currentGroup];
+                if (this.elements) {
+                    return this.elements[this.currentGroup];
+                }
+                
+                return [];
             },
             groups() {
-                let groups = _.keys(this.mutableElements);
+                let groups = _.keys(this.elements);
 
                 if (!groups.length) {
                     return ['default'];

@@ -8,25 +8,24 @@
         </td>
         <td>
             <span class="select">
-                <b-select v-model="type" @input="update">
-                    <option value="method">Column / Method</option>
-                    <option value="presenter">Presenter</option>
+                <b-select v-model="element.presenter" @input="update">
+                    <option value="false">Column / Method</option>
+                    <option value="true">Presenter</option>
                 </b-select>
             </span>
         </td>
         <td>
             <b-autocomplete
-                    v-model="mutableProps.element.column"
-                    :placeholder="type"
+                    v-model="element.column"
                     :data="filterColumns"
                     @input="update">
             </b-autocomplete>
         </td>
         <td>
-            <b-input v-model="mutableProps.element.name" :placeholder="defaultName" @input="update"></b-input>
+            <b-input v-model="element.name" :placeholder="defaultName" @input="update"></b-input>
         </td>
         <td>
-            <b-input v-model="mutableProps.element.formatter" @input="update"></b-input>
+            <b-input v-model="element.formatter" @input="update"></b-input>
         </td>
     </tr>
 </template>
@@ -38,78 +37,39 @@
     export default {
         props: ['element'],
         data() {
-            
-            let type = this.element['presenter'] ? 'presenter' : 'method';
-            
             return {
-                type: type,
                 loading: false,
-                mutableProps: {
-                    column: this.element.column,
-                    element: this.element
-                }
-            }
+            };
         },
         methods: {
-            update: _.debounce(function () {
-                
-                let element = this.mutableProps.element;
-                let originColumn = this.mutableProps.column;
-
-                // remove column
-                if (!element.column) {
-                    
-                    if (!originColumn) {
-                        return
-                    }
-
-                    this.remove();
-                }
-
-                this.loading = true;
-
-                let item = {};
-                _.each(['name', 'formatter', 'column', 'token'], (field) => {
-                    item[field] = element[field] ? element[field] : null;
-                });
-                item.presenter = this.type === 'presenter';
-
-                this.$emit('update', originColumn, item);
-                this.mutableProps.element = item;
-                this.mutableProps.column  = item.column;
-
-                axios.put(this.updatePath(), {
-                    column: originColumn,
-                    data: item
-                }).then(() => {
-                    this.loading = false;
-                });
-                
-            }, 800),
-            updatePath() {
-                return this.$root.url('/list/update/' + this.$root.table + '/' + this.$parent.currentGroup);
+            update() {
+                this.$emit('update');
             },
             remove() {
-                this.$emit('remove', this.mutableProps.element);
+                this.$emit('remove', this.element);
             }
         },
         computed: {
             filterColumns() {
                 let columns = _.keys(this.$root.columns);
                 return columns.filter((column) => {
-                    return column.toLowerCase().indexOf(this.mutableProps.element.column) >= 0;
+                    return column.toLowerCase().indexOf(this.element.column) >= 0;
                 });
-            },
-            presenter() {
-                return this.type === 'presenter';
+
             },
             defaultName() {
-                let column = this.$root.columns[this.mutableProps.column];
+                
+                if (!this.element.column) {
+                    return '';
+                }
+                
+                let column = this.$root.columns[this.element.column];
                 return column ? column.name : '';
             }
         },
         mounted() {
-            this.$set(this.mutableProps.element, 'column', this.mutableProps.column);
+            let presenter = this.element.presenter ? this.element.presenter : false;
+            this.$set(this.element, 'presenter', presenter);
         }
     }
 </script>

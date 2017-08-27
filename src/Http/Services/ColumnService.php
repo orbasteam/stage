@@ -33,14 +33,13 @@ class ColumnService extends Service
 
     /**
      * @param string $table
-     * @param string $column
      * @param array  $data
      */
-    public function put($table, $column, $data)
+    public function put($table, $data)
     {
-        $this->updateData($table, function($config) use ($column, $data) {
+        $this->updateData($table, function($config) use ($data) {
             $config = $config->toArray();
-            Arr::set($config, "columns.$column", $data);
+            Arr::set($config, "columns", $data);
             return $config;
         });
     }

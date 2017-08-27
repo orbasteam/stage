@@ -14,7 +14,6 @@ Route::group(['prefix' => 'column'], function() {
 Route::group(['prefix' => 'list'], function() {
     
     Route::put('update/{table}/{group}', 'ListController@update');
-    Route::delete('destroy/{table}/{group}/{column}', 'ListController@destroy');
     
     Route::delete('destroyGroup/{table}/{group}', 'ListController@destroyGroup');
     Route::post('createGroup/{table}', 'ListController@createGroup');

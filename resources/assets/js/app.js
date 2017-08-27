@@ -28,19 +28,27 @@ window.Vue = Vue;
  * or customize the JavaScript scaffolding to fit your unique needs.
  */
 
-import ColumnTr from '../../components/columnTr';
+import Column from '../../components/column';
 import List from '../../components/list';
 
 const app = new Vue({
     el: '#app',
     data: {
         table: [],
-        data: {},
         loading: true,
+        ajaxLoading: false,
         routePrefix: 'stage-setup',
-        activeTab: 0
+        activeTab: 0,
+        list: {},
+        columns: {}
     },
     methods: {
+        startAjaxLoading() {
+            this.ajaxLoading = true;
+        },
+        finishAjaxLoading() {
+            this.ajaxLoading = false;
+        },
         url(uri) {
             return '/' + this.routePrefix + '/' + _.trim(uri, '/');
         },
@@ -51,7 +59,15 @@ const app = new Vue({
             axios.get(this.url('/column/' + this.table))
                 .then( (response) => {
                     history.pushState({}, null, this.url('?table=' + this.table));
-                    this.data = response.data;
+                    
+                    if (response.data.list) {
+                        this.list = response.data.list;
+                    }
+                    
+                    if (response.data.columns) {
+                        this.columns = response.data.columns;
+                    }
+                    
                     this.loading = false;
                 });
         },
@@ -59,18 +75,10 @@ const app = new Vue({
             return Object.keys(obj).length === 0;
         }
     },
-    computed: {
-        columns: function() {
-            return this.data['columns'] ? this.data['columns'] : {};
-        },
-        list: function() {
-            return this.data['list'] ? this.data['list'] : [];
-        }
-    },
     mounted() {
         this.loading = false;
     },
-    components: {ColumnTr, List, Spinner},
+    components: {Column, List, Spinner},
 });
 
 window.app = app;

@@ -30,17 +30,7 @@ class ListController extends Controller
      */
     public function update($table, $group, Request $request)
     {
-        $this->service->put($table, $group, $request->column, array_filter($request->data));
-    }
-
-    /**
-     * @param string $table
-     * @param string $group
-     * @param string $column
-     */
-    public function destroy($table, $group, $column)
-    {
-        $this->service->removeColumn($table, $group, $column);
+        $this->service->put($table, $group, $request->data);
     }
 
     /**

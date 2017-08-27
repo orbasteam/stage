@@ -21,6 +21,7 @@
         <spinner></spinner>
     </div>
 
+
     <nav class="nav">
 
         <div class="container">
@@ -39,8 +40,13 @@
             </div>
 
             <div class="nav-right nav-menu">
+
+                <div class="nav-item" v-if="ajaxLoading">
+                    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+                </div>
+
                 <div class="nav-item">
-                
+
                     <b-field>
                         <p class="control">
                             <span class="button is-static">Table</span>
@@ -51,7 +57,7 @@
                             @endforeach
                         </b-select>
                     </b-field>
-                
+
                 </div>
             </div>
 
@@ -59,7 +65,7 @@
     </nav>
 
     @yield('content')
-
+    
 </div>
 
 <script src="{{ route('stage-setup.js') }}"></script>
