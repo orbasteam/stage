@@ -10,12 +10,14 @@ require('./bootstrap');
 import Vue from 'vue';
 import _ from 'lodash';
 import Buefy from 'buefy';
+import AsyncComputed from 'vue-async-computed'
 
 import Spinner from 'vue-loading-spinner/src/components/RotateSquare2';
 
 import 'buefy/lib/buefy.css';
 
 Vue.use(Buefy);
+Vue.use(AsyncComputed);
 
 window.Vue = Vue;
 
