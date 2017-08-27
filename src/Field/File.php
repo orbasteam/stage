@@ -53,7 +53,7 @@ class File implements Storage
 <?php
 return $data;
 FILE;
-
+        
         Local::put($path, $config);
         
         return $this;
@@ -67,7 +67,13 @@ FILE;
     protected function path($table)
     {
         $path = config('stage.global.field.path') . '/' . $table . '.php';
-        return app()->basePath($path);
+        $path = app()->basePath($path);
+        
+        if (!Local::exists(dirname($path))) {
+            Local::makeDirectory(dirname($path), 0755, true);
+        }
+        
+        return $path;
     }
 
     /**
