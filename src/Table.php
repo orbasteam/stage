@@ -1,6 +1,7 @@
 <?php
 namespace Orbas\Stage;
 
+use Closure;
 use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Collection;
@@ -36,6 +37,11 @@ class Table
      */
     protected $body;
 
+    /**
+     * @var Closure
+     */
+    protected $filter;
+    
     /**
      * @var string
      */
@@ -130,6 +136,25 @@ class Table
         }
 
         return $this->header;
+    }
+
+    /**
+     * @param Closure $callback
+     *
+     * @return $this
+     */
+    public function filter(Closure $callback)
+    {
+        $this->filter = $callback;
+        return $this;
+    }
+
+    /**
+     * @return Closure
+     */
+    public function getFilter()
+    {
+        return $this->filter;
     }
 
     /**

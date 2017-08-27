@@ -25,7 +25,7 @@ class Body extends Element
             'columns' => $this->getColumns(),
             'load'    => $this->getEagerLoadTable()
         ];
-        $dataProvider = new DataProvider($this->getModel(), $config);
+        $dataProvider = new DataProvider($this->table, $config);
         
         return $dataProvider->getData();
     }

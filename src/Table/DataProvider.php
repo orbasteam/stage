@@ -4,7 +4,7 @@ namespace Orbas\Stage\Table;
 
 use Illuminate\Config\Repository;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Orbas\Stage\Table;
 
 class DataProvider
 {
@@ -14,20 +14,20 @@ class DataProvider
     private $config;
 
     /**
-     * @var Model
+     * @var Table
      */
-    private $model;
+    protected $table;
 
     /**
      * DataProvider constructor.
      *
-     * @param Model $model
+     * @param Table $table
      * @param array $config
      */
-    public function __construct(Model $model, $config)
+    public function __construct(Table $table, $config)
     {
         $this->config = new Repository($config);
-        $this->model = $model;
+        $this->table = $table;
     }
 
     /**
@@ -35,10 +35,17 @@ class DataProvider
      */
     public function getData()
     {
-        $collection = $this->model::paginate(null, $this->config->get('columns'));
-        $this->eagerLoad($collection);
+        $model = $this->table->getModel()->newQuery();
         
-        return $collection;
+        $filter = $this->table->getFilter();
+        if (is_callable($filter)) {
+            $filter($model);
+        }
+
+        $collection = $model->paginate(null, $this->config->get('columns'));
+        return tap($collection, function($collection) {
+            $this->eagerLoad($collection);
+        });
     }
 
     /**
