@@ -1,9 +1,13 @@
 <template>
     <tr>
         <td>
+            <div class="movable tag is-medium">
+                <b-icon icon="drag_handle" class="handler"></b-icon>
+            </div>
+        </td>
+        <td>
             <button class="button is-danger is-outlined" @click="remove" :disabled="loading">
-                <i class="fa fa-spinner fa-spin fa-fw" v-if="loading"></i>
-                <b-icon icon="clear" v-if="!loading"></b-icon>
+                <b-icon icon="clear"></b-icon>
             </button>
         </td>
         <td>

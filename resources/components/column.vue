@@ -9,8 +9,8 @@
         </tr>
         </thead>
         <tbody>
-        <tr is="column-tr" v-for="(element, columnName) in columns"
-            :column-name="columnName" :element="element" @update="update"></tr>
+            <tr is="column-tr" v-for="(element, columnName) in columns"
+                :column-name="columnName" :element="element" @update="update"></tr>
         </tbody>
     </table>
 </template>

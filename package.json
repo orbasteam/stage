@@ -21,7 +21,8 @@
     "lodash": "^4.17.4",
     "vue": "^2.1.10",
     "vue-loading-spinner": "^1.0.10",
-    "vue-async-computed": "^3.3.0"
+    "vue-async-computed": "^3.3.0",
+    "vuedraggable": "^2.14.1"
   },
   "dependencies": {
     "randomstring": "^1.1.5"

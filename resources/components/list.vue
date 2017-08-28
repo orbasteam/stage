@@ -23,27 +23,30 @@
             <thead>
             <tr>
                 <th></th>
+                <th></th>
                 <th>Type</th>
                 <th>Column / Presenter</th>
                 <th>Name</th>
                 <th>Formatter</th>
             </tr>
             </thead>
-            <tbody>
-            <tr is="list-tr" :element="element" v-for="element in list"
-                @remove="remove" @update="updateList" :key="generateKey(element)"></tr>
-            <tr>
-                <td>
-                    <button class="button is-info is-outlined" @click="createElement">
-                        <b-icon icon="add"></b-icon>
-                    </button>
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            </tbody>
+            <draggable v-model="list" element="tbody" :options="draggableOptions" @end="updateList">
+                <tr is="list-tr" :element="element" v-for="element in list"
+                    @remove="remove" @update="updateList" class="item" 
+                    :key="generateKey(element)"></tr>
+                
+                <tr slot="footer">
+                    <td>
+                        <button class="button is-info is-outlined" @click="createElement">
+                            <b-icon icon="add"></b-icon>
+                        </button>
+                    </td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </draggable>
         </table>
 
     </div>
@@ -55,12 +58,17 @@
     import _ from 'lodash';
     import ListTr from './listTr';
     import randomString from 'randomstring';
+    import Draggable from 'vuedraggable';
 
     export default {
         props: ['elements'],
         data() {
             return {
-                currentGroup: 'default'
+                currentGroup: 'default',
+                draggableOptions: {
+                    draggable:'.item', 
+                    handle: '.handler'
+                }
             }
         },
         methods: {
@@ -197,7 +205,7 @@
                 return groups;
             }
         },
-        components: { ListTr }
+        components: { ListTr, Draggable }
     }
     
 </script>
