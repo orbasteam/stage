@@ -59,20 +59,12 @@ const app = new Vue({
             axios.get(this.url('/column/' + this.table))
                 .then( (response) => {
                     history.pushState({}, null, this.url('?table=' + this.table));
-                    
-                    if (response.data.list) {
-                        this.list = response.data.list;
-                    }
-                    
-                    if (response.data.columns) {
-                        this.columns = response.data.columns;
-                    }
+
+                    this.list = response.data.list ? response.data.list : {};
+                    this.columns = response.data.columns ? response.data.columns : {};
                     
                     this.loading = false;
                 });
-        },
-        empty(obj) {
-            return Object.keys(obj).length === 0;
         }
     },
     mounted() {
