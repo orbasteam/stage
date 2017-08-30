@@ -2,10 +2,12 @@
 
 namespace Orbas\Stage\Http\Services;
 
-use Illuminate\Support\Collection;
-
 class ListService extends Service
 {
+    const COLUMN = 0;
+    const PRESENTER = 1;
+    const ENUM = 2;
+    
     /**
      * @param string $table
      * @param string $group

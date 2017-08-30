@@ -4,6 +4,7 @@ namespace Orbas\Stage\Table;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
+use Orbas\Stage\Http\Services\ListService;
 use Orbas\Stage\Table\Formatter\Factory as Formatter;
 
 class Displayer
@@ -61,8 +62,15 @@ class Displayer
             $column = $attribute;
         }
         
-        if (!empty($config['presenter'])) {
-            return $item->present()->$column;
+        if (isset($config['type'])) {
+            
+            switch ($config['type']) {
+                case ListService::PRESENTER:
+                    return $item->present()->$column;
+                case ListService::ENUM:
+                    $enum = $config['enum'] ?? null;
+                    return $item->present()->enum($column, $enum);
+            }
         }
         
         return call_user_func_array([$item, 'getAttribute'], [$column]);

@@ -43569,6 +43569,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -43603,7 +43606,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.map(this.list, function (element) {
 
                 var item = {};
-                __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.each(['name', 'formatter', 'column', 'token', 'presenter'], function (field) {
+                __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.each(['name', 'formatter', 'column', 'token', 'type', 'enum'], function (field) {
                     if (element[field] !== undefined) {
                         item[field] = element[field];
                     }
@@ -43810,6 +43813,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -43818,7 +43823,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     props: ['element'],
     data: function data() {
         return {
-            loading: false
+            loading: false,
+            elementTypes: [{ id: 0, name: "Column/Method" }, { id: 1, name: "Presenter" }, { id: 2, name: "Enum" }]
         };
     },
 
@@ -43886,21 +43892,20 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       "input": _vm.update
     },
     model: {
-      value: (_vm.element.presenter),
+      value: (_vm.element.type),
       callback: function($$v) {
-        _vm.element.presenter = $$v
+        _vm.element.type = $$v
       },
-      expression: "element.presenter"
+      expression: "element.type"
     }
-  }, [_c('option', {
-    domProps: {
-      "value": 0
-    }
-  }, [_vm._v("Column / Method")]), _vm._v(" "), _c('option', {
-    domProps: {
-      "value": 1
-    }
-  }, [_vm._v("Presenter")])])], 1)]), _vm._v(" "), _c('td', [_c('b-autocomplete', {
+  }, _vm._l((_vm.elementTypes), function(option) {
+    return _c('option', {
+      domProps: {
+        "value": option.id,
+        "textContent": _vm._s(option.name)
+      }
+    })
+  }))], 1)]), _vm._v(" "), _c('td', [_c('b-autocomplete', {
     attrs: {
       "data": _vm.filterColumns
     },
@@ -43927,6 +43932,17 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.element.name = $$v
       },
       expression: "element.name"
+    }
+  })], 1), _vm._v(" "), _c('td', [_c('b-input', {
+    on: {
+      "input": _vm.update
+    },
+    model: {
+      value: (_vm.element.enum),
+      callback: function($$v) {
+        _vm.element.enum = $$v
+      },
+      expression: "element.enum"
     }
   })], 1), _vm._v(" "), _c('td', [_c('b-input', {
     on: {
@@ -55521,9 +55537,9 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     attrs: {
       "icon": "add"
     }
-  })], 1)]), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td')])])], 1)])
+  })], 1)]), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td'), _vm._v(" "), _c('td')])])], 1)])
 },staticRenderFns: [function (){var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;
-  return _c('thead', [_c('tr', [_c('th'), _vm._v(" "), _c('th'), _vm._v(" "), _c('th', [_vm._v("Type")]), _vm._v(" "), _c('th', [_vm._v("Column / Presenter")]), _vm._v(" "), _c('th', [_vm._v("Name")]), _vm._v(" "), _c('th', [_vm._v("Formatter")])])])
+  return _c('thead', [_c('tr', [_c('th'), _vm._v(" "), _c('th'), _vm._v(" "), _c('th', [_vm._v("Type")]), _vm._v(" "), _c('th', [_vm._v("Column / Presenter")]), _vm._v(" "), _c('th', [_vm._v("Name")]), _vm._v(" "), _c('th', [_vm._v("Enum")]), _vm._v(" "), _c('th', [_vm._v("Formatter")])])])
 }]}
 module.exports.render._withStripped = true
 if (false) {

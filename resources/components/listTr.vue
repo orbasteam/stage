@@ -12,9 +12,8 @@
         </td>
         <td>
             <span class="select">
-                <b-select v-model="element.presenter" @input="update">
-                    <option :value="0">Column / Method</option>
-                    <option :value="1">Presenter</option>
+                <b-select v-model="element.type" @input="update">
+                    <option v-for="option in elementTypes" :value="option.id" v-text="option.name"></option>
                 </b-select>
             </span>
         </td>
@@ -27,6 +26,9 @@
         </td>
         <td>
             <b-input v-model="element.name" :placeholder="defaultName" @input="update"></b-input>
+        </td>
+        <td>
+            <b-input v-model="element.enum" @input="update"></b-input>
         </td>
         <td>
             <b-input v-model="element.formatter" @input="update"></b-input>
@@ -43,6 +45,11 @@
         data() {
             return {
                 loading: false,
+                elementTypes: [
+                    {id: 0, name: "Column/Method"},
+                    {id: 1, name: "Presenter"},
+                    {id: 2, name: "Enum"}
+                ]
             };
         },
         methods: {

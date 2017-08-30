@@ -1,8 +1,9 @@
 <template>
 
     <div>
-
+        
         <div class="columns">
+            
             <div class="column">
                 <b-field>
                     <p class="control">
@@ -27,27 +28,29 @@
                 <th>Type</th>
                 <th>Column / Presenter</th>
                 <th>Name</th>
+                <th>Enum</th>
                 <th>Formatter</th>
             </tr>
             </thead>
             <draggable v-model="list" element="tbody" :options="draggableOptions" @end="updateList">
                 <tr is="list-tr" :element="element" v-for="element in list"
-                    @remove="remove" @update="updateList" class="item" 
+                    @remove="remove" @update="updateList" class="item"
                     :key="generateKey(element)"></tr>
             </draggable>
             <tfoot>
-                <tr>
-                    <td>
-                        <button class="button is-info is-outlined" @click="createElement">
-                            <b-icon icon="add"></b-icon>
-                        </button>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
+            <tr>
+                <td>
+                    <button class="button is-info is-outlined" @click="createElement">
+                        <b-icon icon="add"></b-icon>
+                    </button>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
             </tfoot>
         </table>
 
@@ -87,7 +90,7 @@
                 _.map(this.list, (element) => {
                     
                     let item = {};
-                    _.each(['name', 'formatter', 'column', 'token', 'presenter'], (field) => {
+                    _.each(['name', 'formatter', 'column', 'token', 'type', 'enum'], (field) => {
                         if (element[field] !== undefined) {
                             item[field] = element[field];
                         }
