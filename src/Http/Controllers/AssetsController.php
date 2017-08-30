@@ -28,7 +28,7 @@ class AssetsController extends Controller
      */
     public function javascript()
     {
-        $path = $this->resourcePath('dist/js/app.js');
+        $path = $this->resourcePath('dist/app.js');
 
         if (!file_exists($path)) {
             throw new AppException('Assets haven\'t build yet, please run "npm run production"');
@@ -45,7 +45,7 @@ class AssetsController extends Controller
      */
     public function css()
     {
-        $path = $this->resourcePath('dist/css/app.css');
+        $path = $this->resourcePath('dist/app.css');
 
         if (!file_exists($path)) {
             throw new AppException('Assets haven\'t build yet, please run "npm run production"');

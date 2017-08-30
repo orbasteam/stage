@@ -22,24 +22,29 @@
     </div>
 
 
-    <nav class="nav">
+    <nav class="navbar has-shadow is-primary">
 
-        <div class="container">
-
-            <div class="nav-left">
-                <a class="nav-item is-brand" href="{{ route('stage-setup.index') }}">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%">
-                        <title/>
-                        <g data-name="Cylinder Hat" id="Cylinder_Hat">
-                            <path d="M20,11.42V9.5a29.59,29.59,0,0,1,.9-5.7s0,0,0,0A.49.49,0,0,0,21,3.5C21,2.26,16.11,2,12,2S3,2.26,3,3.5a.48.48,0,0,0,.08.26s0,0,0,0A28.75,28.75,0,0,1,4,9.5v1.92c-2.76.59-4,2-4,4.58,0,3.25,5.5,6,12,6s12-2.75,12-6C24,13.43,22.76,12,20,11.42Zm-1,4a.48.48,0,0,1-.24.43C18,16.31,16.07,17,12,17s-6-.69-6.76-1.11A.48.48,0,0,1,5,15.46V14.25A23.58,23.58,0,0,0,12,15a23.58,23.58,0,0,0,7-.75Z"
-                                  style="fill:#303c42"/>
-                        </g>
-                    </svg>
-                    <span class="brand-name">STAGE</span>
-                </a>
+        <div class="navbar-brand">
+            <a class="is-brand nav-item" href="{{ route('stage-setup.index') }}">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%">
+                    <title/>
+                    <g data-name="Cylinder Hat" id="Cylinder_Hat">
+                        <path d="M20,11.42V9.5a29.59,29.59,0,0,1,.9-5.7s0,0,0,0A.49.49,0,0,0,21,3.5C21,2.26,16.11,2,12,2S3,2.26,3,3.5a.48.48,0,0,0,.08.26s0,0,0,0A28.75,28.75,0,0,1,4,9.5v1.92c-2.76.59-4,2-4,4.58,0,3.25,5.5,6,12,6s12-2.75,12-6C24,13.43,22.76,12,20,11.42Zm-1,4a.48.48,0,0,1-.24.43C18,16.31,16.07,17,12,17s-6-.69-6.76-1.11A.48.48,0,0,1,5,15.46V14.25A23.58,23.58,0,0,0,12,15a23.58,23.58,0,0,0,7-.75Z"
+                              style="fill:#303c42"/>
+                    </g>
+                </svg>
+                <span class="brand-name">STAGE</span>
+            </a>
+        </div>
+        
+        <div class="navbar-menu">
+            
+            <div class="navbar-start">
+                <a href="#" class="navbar-item is-tab" :class="{'is-active': isActiveTab('column')}" @click.prevent="changeTab('column')">Column</a>
+                <a href="#" class="navbar-item is-tab" :class="{'is-active': isActiveTab('list')}" @click.prevent="changeTab('list')">List</a>
             </div>
-
-            <div class="nav-right nav-menu">
+            
+            <div class="navbar-end">
 
                 <div class="nav-item" v-if="ajaxLoading">
                     <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
@@ -51,7 +56,7 @@
                         <p class="control">
                             <span class="button is-static">Table</span>
                         </p>
-                        <b-select placeholder="Select Table" @change="selectTable" v-model="table">
+                        <b-select placeholder="Select Table" @input="selectTable" v-model="table">
                             @foreach($tables as $table)
                                 <option>{{$table}}</option>
                             @endforeach
@@ -59,9 +64,10 @@
                     </b-field>
 
                 </div>
-            </div>
 
+            </div>
         </div>
+        
     </nav>
 
     @yield('content')
@@ -77,7 +83,6 @@
     @if(request('table'))
         app.table = '{{ request('table') }}';
     @endif
-        app.data = {!! isset($columns) ? $columns->toJson() : '{}' !!};
 </script>
 
 </body>

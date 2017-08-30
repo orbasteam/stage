@@ -19,7 +19,7 @@
             </div>
         </div>
         
-        <table class="table is-striped">
+        <table class="table is-striped is-fullwidth">
             <thead>
             <tr>
                 <th></th>
@@ -34,8 +34,9 @@
                 <tr is="list-tr" :element="element" v-for="element in list"
                     @remove="remove" @update="updateList" class="item" 
                     :key="generateKey(element)"></tr>
-                
-                <tr slot="footer">
+            </draggable>
+            <tfoot>
+                <tr>
                     <td>
                         <button class="button is-info is-outlined" @click="createElement">
                             <b-icon icon="add"></b-icon>
@@ -45,8 +46,9 @@
                     <td></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                 </tr>
-            </draggable>
+            </tfoot>
         </table>
 
     </div>

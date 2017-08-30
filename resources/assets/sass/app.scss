@@ -12,14 +12,20 @@
   }
 }
 
-.nav-item.is-brand {
-  max-width: 180px;
+.navbar-brand {
+  
+  padding-left: 15px;
+  
+  .is-brand {
+    max-width: 180px;
 
-  .brand-name {
-    font-family: 'Bowlby One SC', cursive;
-    color: #303c42;
-    font-size: 31px;
-    text-transform: uppercase;
+    .brand-name {
+      font-family: 'Bowlby One SC', cursive;
+      color: #303c42;
+      font-size: 31px;
+      text-transform: uppercase;
+      margin-left: 15px;
+    }
   }
 }
 

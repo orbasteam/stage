@@ -38,11 +38,17 @@ const app = new Vue({
         loading: true,
         ajaxLoading: false,
         routePrefix: 'stage-setup',
-        activeTab: 0,
+        activeTab: 'column',
         list: {},
         columns: {}
     },
     methods: {
+        isActiveTab(tab) {
+            return tab === this.activeTab;
+        },
+        changeTab(tab) {
+            this.activeTab = tab;
+        },
         startAjaxLoading() {
             this.ajaxLoading = true;
         },

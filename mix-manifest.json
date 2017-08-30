@@ -1,7 +1,4 @@
 {
-  "/public/build/js/app.js": "/public/build/js/app.js",
-  "/mix.js": "/mix.js",
-  "/resources/build/js/app.js": "/resources/build/js/app.js",
-  "/resources/dist/js/app.js": "/resources/dist/js/app.js",
-  "/resources/dist/css/app.css": "/resources/dist/css/app.css"
+    "/resources/dist/app.js": "/resources/dist/app.js",
+    "/resources/dist/app.css": "/resources/dist/app.css"
 }
