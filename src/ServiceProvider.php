@@ -5,6 +5,7 @@ use \Illuminate\Support\ServiceProvider as Provider;
 
 use Orbas\Stage\Navigation\Renderer;
 use Illuminate\Support\Facades\Route;
+use Orbas\Util\ServiceProvider as UtilServiceProvider;
 
 class ServiceProvider extends Provider
 {
@@ -39,6 +40,8 @@ class ServiceProvider extends Provider
 
         config(['stage.root' => __DIR__]);
         app('view')->addNamespace('stage', config('stage.root') . '/../view/stage/');
+        
+        $this->app->register(UtilServiceProvider::class);
     }
 
     /**
