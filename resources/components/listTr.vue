@@ -28,7 +28,11 @@
             <b-input v-model="element.name" :placeholder="defaultName" @input="update"></b-input>
         </td>
         <td>
-            <b-input v-model="element.enum" @input="update"></b-input>
+            <b-autocomplete
+                    v-model="element.enum"
+                    :data="enums"
+                    @input="update">
+            </b-autocomplete>
         </td>
         <td>
             <b-input v-model="element.formatter" @input="update"></b-input>
@@ -58,15 +62,21 @@
             },
             remove() {
                 this.$emit('remove', this.element);
+            },
+            filter(data, match) {
+                match = match ? match.toLowerCase() : '';
+                return data.filter((item) => {
+                    return item.toLowerCase().indexOf(match) >= 0;
+                });
             }
         },
         computed: {
+            enums() {
+                return this.filter(this.$root.enums, this.element.enum);
+            },
             filterColumns() {
                 let columns = _.keys(this.$root.columns);
-                return columns.filter((column) => {
-                    return column.toLowerCase().indexOf(this.element.column) >= 0;
-                });
-
+                return this.filter(columns, this.element.column);
             },
             defaultName() {
                 
@@ -79,8 +89,10 @@
             }
         },
         mounted() {
-            let presenter = this.element.presenter ? this.element.presenter : 0;
-            this.$set(this.element, 'presenter', presenter);
+            if (this.element.type === undefined) {
+                this.$set(this.element, 'type', 0);
+            }
+            
         }
     }
 </script>

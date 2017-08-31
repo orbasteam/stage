@@ -40,7 +40,8 @@ const app = new Vue({
         routePrefix: 'stage-setup',
         activeTab: 'column',
         list: {},
-        columns: {}
+        columns: {},
+        enums: []
     },
     methods: {
         isActiveTab(tab) {

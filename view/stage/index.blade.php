@@ -7,7 +7,7 @@
     </section>
     
     <section class="section" v-show="isActiveTab('list')">
-        <list :elements="list" :presenters="presenters" :enums="enums"></list>
+        <list :elements="list" :enums="enums"></list>
     </section>
         
 @stop

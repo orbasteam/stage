@@ -83,6 +83,11 @@
     @if(request('table'))
         app.table = '{{ request('table') }}';
     @endif
+    
+    @if($enums)
+        app.enums = {!! $enums->toJson() !!}
+    @endif
+    
 </script>
 
 </body>

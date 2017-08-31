@@ -31175,7 +31175,8 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
         routePrefix: 'stage-setup',
         activeTab: 'column',
         list: {},
-        columns: {}
+        columns: {},
+        enums: []
     },
     methods: {
         isActiveTab: function isActiveTab(tab) {
@@ -43815,6 +43816,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 
 
@@ -43834,16 +43839,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         remove: function remove() {
             this.$emit('remove', this.element);
+        },
+        filter: function filter(data, match) {
+            match = match ? match.toLowerCase() : '';
+            return data.filter(function (item) {
+                return item.toLowerCase().indexOf(match) >= 0;
+            });
         }
     },
     computed: {
+        enums: function enums() {
+            return this.filter(this.$root.enums, this.element.enum);
+        },
         filterColumns: function filterColumns() {
-            var _this = this;
-
             var columns = __WEBPACK_IMPORTED_MODULE_0_lodash___default.a.keys(this.$root.columns);
-            return columns.filter(function (column) {
-                return column.toLowerCase().indexOf(_this.element.column) >= 0;
-            });
+            return this.filter(columns, this.element.column);
         },
         defaultName: function defaultName() {
 
@@ -43856,8 +43866,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     mounted: function mounted() {
-        var presenter = this.element.presenter ? this.element.presenter : 0;
-        this.$set(this.element, 'presenter', presenter);
+        if (this.element.type === undefined) {
+            this.$set(this.element, 'type', 0);
+        }
     }
 });
 
@@ -43933,7 +43944,10 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
       },
       expression: "element.name"
     }
-  })], 1), _vm._v(" "), _c('td', [_c('b-input', {
+  })], 1), _vm._v(" "), _c('td', [_c('b-autocomplete', {
+    attrs: {
+      "data": _vm.enums
+    },
     on: {
       "input": _vm.update
     },
