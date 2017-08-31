@@ -2,12 +2,12 @@
 
 @section('content')
     
-    <section class="section" v-if="isActiveTab('column')">
+    <section class="section" v-show="isActiveTab('column')">
         <column :columns="columns"></column>
     </section>
     
-    <section class="section" v-if="isActiveTab('list')">
-        <list :elements="list"></list>
+    <section class="section" v-show="isActiveTab('list')">
+        <list :elements="list" :presenters="presenters" :enums="enums"></list>
     </section>
         
 @stop
