@@ -7,7 +7,7 @@
     </tr>
     </thead>
     <tbody>
-    @foreach($table->getBody() as $item)
+    @foreach($table->getBody()->items() as $item)
         <tr>
             @foreach($table->getHeader() as $header)
                 <td>
@@ -18,3 +18,5 @@
     @endforeach
     </tbody>
 </table>
+
+{!! $table->paginator() !!}

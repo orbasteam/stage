@@ -2,12 +2,17 @@
 
 namespace Orbas\Stage\Table;
 
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Collection as EloquentCollection;
 use Illuminate\Support\Collection;
 
 class Body extends Element
 {
+    /**
+     * @var LengthAwarePaginator
+     */
+    protected $data;
+    
     /**
      * @return Collection
      */
@@ -17,17 +22,21 @@ class Body extends Element
     }
 
     /**
-     * @return EloquentCollection
+     * @return LengthAwarePaginator
      */
-    protected function getData()
+    public function getPaginator()
     {
-        $config = [
-            'columns' => $this->getColumns(),
-            'load'    => $this->getEagerLoadTable()
-        ];
-        $dataProvider = new DataProvider($this->table, $config);
+        if (!$this->data) {
+            
+            $config = [
+                'columns' => $this->getColumns(),
+                'load'    => $this->getEagerLoadTable()
+            ];
+            
+            $this->data = (new DataProvider($this->table, $config))->getPaginator();
+        }
         
-        return $dataProvider->getData();
+        return $this->data;
     }
 
     /**
@@ -40,7 +49,7 @@ class Body extends Element
         $result = new Collection();
         $header = $this->table->getHeader();
 
-        foreach ($this->getData() as $item) {
+        foreach ($this->getPaginator() as $item) {
             $row = [];
 
             foreach ($header as $config) {

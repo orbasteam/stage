@@ -158,15 +158,25 @@ class Table
     }
 
     /**
-     * @return Collection
+     * @return Body
      */
     public function getBody()
     {
         if (!$this->body) {
-            $this->body = (new Body($this))->items();
+            $this->body = (new Body($this));
         }
         
         return $this->body;
+    }
+
+    /**
+     * get paginator links
+     * 
+     * @return string
+     */
+    public function paginator()
+    {
+        return $this->getBody()->getPaginator()->links();
     }
 
     /**

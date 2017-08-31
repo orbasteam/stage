@@ -3,7 +3,7 @@
 namespace Orbas\Stage\Table;
 
 use Illuminate\Config\Repository;
-use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Orbas\Stage\Table;
 
 class DataProvider
@@ -31,9 +31,9 @@ class DataProvider
     }
 
     /**
-     * @return Collection
+     * @return LengthAwarePaginator
      */
-    public function getData()
+    public function getPaginator()
     {
         $model = $this->table->getModel()->newQuery();
         
