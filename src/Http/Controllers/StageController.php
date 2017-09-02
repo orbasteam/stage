@@ -40,6 +40,10 @@ class StageController extends Controller
      */
     protected function getFileNameFromPath($path)
     {
+        if (!File::isDirectory($path)) {
+            return collect([]);
+        }
+        
         $collection = collect(File::allFiles($path));
         return $collection->map(function($file) {
             preg_match('/(\w+)\.php/', $file->getFilename(), $matches);
