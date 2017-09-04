@@ -88,6 +88,10 @@
         app.enums = {!! $enums->toJson() !!}
     @endif
     
+    @if($tableDefaultOptions)
+        app.listDefaultOptions = {!! json_encode($tableDefaultOptions, JSON_FORCE_OBJECT) !!}
+    @endif
+    
 </script>
 
 </body>

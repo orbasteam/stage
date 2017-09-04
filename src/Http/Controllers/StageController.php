@@ -19,7 +19,8 @@ class StageController extends Controller
         return view('stage::index')->with(
             [
                 'tables' => $service->getTables(),
-                'enums' => $this->getEnums()
+                'enums' => $this->getEnums(),
+                'tableDefaultOptions' => config('stage.table')
             ]
         );
     }

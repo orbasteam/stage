@@ -28,6 +28,7 @@ class ServiceProvider extends Provider
     public function register()
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/stage/global.php', 'stage.global');
+        $this->mergeConfigFrom(__DIR__ . '/../config/stage/table.php', 'stage.table');
         
         $this->registerTable();
         $this->registerNavigation();

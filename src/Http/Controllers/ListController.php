@@ -56,5 +56,4 @@ class ListController extends Controller
     {
         $this->service->createGroup($table, $request->group);
     }
-
 }

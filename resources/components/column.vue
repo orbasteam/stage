@@ -1,18 +1,20 @@
 <template>
-    <table class="table is-striped is-fullwidth">
-        <thead>
-        <tr>
-            <th>Column</th>
-            <th>Name</th>
-            <th>Type</th>
-            <th>Length</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class="box">
+        <table class="table is-striped is-fullwidth">
+            <thead>
+            <tr>
+                <th>Column</th>
+                <th>Name</th>
+                <th>Type</th>
+                <th>Length</th>
+            </tr>
+            </thead>
+            <tbody>
             <tr is="column-tr" v-for="(element, columnName) in columns"
                 :column-name="columnName" :element="element" @update="update"></tr>
-        </tbody>
-    </table>
+            </tbody>
+        </table>
+    </div>
 </template>
 
 <script>

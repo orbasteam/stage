@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -32,52 +31,62 @@ import Column from '../../components/column';
 import List from '../../components/list';
 
 const app = new Vue({
-    el: '#app',
-    data: {
-        table: [],
-        loading: true,
-        ajaxLoading: false,
-        routePrefix: 'stage-setup',
-        activeTab: 'column',
-        list: {},
-        columns: {},
-        enums: []
+  el: '#app',
+  data: {
+    table: [],
+    loading: true,
+    ajaxLoading: false,
+    routePrefix: 'stage-setup',
+    activeTab: 'column',
+    list: {},
+    columns: {},
+    enums: [],
+    listOptions: {},
+    listDefaultOptions: {},
+  },
+  methods: {
+    isActiveTab(tab) {
+      return tab === this.activeTab;
     },
-    methods: {
-        isActiveTab(tab) {
-            return tab === this.activeTab;
-        },
-        changeTab(tab) {
-            this.activeTab = tab;
-        },
-        startAjaxLoading() {
-            this.ajaxLoading = true;
-        },
-        finishAjaxLoading() {
-            this.ajaxLoading = false;
-        },
-        url(uri) {
-            return '/' + this.routePrefix + '/' + _.trim(uri, '/');
-        },
-        selectTable() {
-            
-            this.loading = true;
-            
-            axios.get(this.url('/column/' + this.table))
-                .then( (response) => {
-                    history.pushState({}, null, this.url('?table=' + this.table));
 
-                    this.list = response.data.list ? response.data.list : {};
-                    this.columns = response.data.columns ? response.data.columns : {};
-                    
-                    this.loading = false;
-                });
-        }
+    changeTab(tab) {
+      this.activeTab = tab;
     },
-    mounted() {
-        this.loading = false;
+
+    startAjaxLoading() {
+      this.ajaxLoading = true;
     },
-    components: {Column, List, Spinner},
+
+    finishAjaxLoading() {
+      this.ajaxLoading = false;
+    },
+
+    url(uri) {
+      return `/${this.routePrefix}/${_.trim(uri, '/')}`;
+    },
+
+    selectTable() {
+      this.loading = true;
+
+      axios.get(this.url(`/column/${this.table}`))
+        .then((response) => {
+          history.pushState({}, null, this.url('?table=' + this.table));
+
+          this.list = response.data.list || {};
+          this.columns = response.data.columns || {};
+          this.listOptions = response.data.listOptions || {};
+
+          this.loading = false;
+        });
+    },
+
+  },
+
+  mounted() {
+    this.loading = false;
+  },
+
+  components: { Column, List, Spinner },
 });
 
 window.app = app;

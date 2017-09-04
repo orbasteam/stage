@@ -16,9 +16,16 @@ class ListService extends Service
     public function put($table, $group, $data)
     {
         $this->updateData($table, function($config) use ($group, $data) {
-            
             $config = $config->toArray();
-            array_set($config, "list.$group", $data);
+            
+            if (isset($data['data'])) {
+                array_set($config, "list.$group", $data['data']);
+            }
+            
+            if (isset($data['option'])) {
+                array_set($config, "listOptions.$group", $data['option']);
+            }
+            
             return $config;
         });
     }
