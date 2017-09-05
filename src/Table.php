@@ -170,13 +170,28 @@ class Table
     }
 
     /**
+     * @return mixed
+     */
+    public function enablePaginate()
+    {
+        $group = $this->getGroup();
+        $listOption = $this->getConfig("listOptions.$group");
+        
+        return !isset($listOption['paginate']) || $listOption['paginate'];
+    }
+
+    /**
      * get paginator links
      * 
      * @return string
      */
     public function paginator()
     {
-        return $this->getBody()->getPaginator()->links();
+        if ($this->enablePaginate()) {
+            return $this->getBody()->getPaginator()->links();
+        }
+        
+        return '';
     }
 
     /**

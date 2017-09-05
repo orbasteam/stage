@@ -42,7 +42,12 @@ class DataProvider
             $filter($model);
         }
 
-        $collection = $model->paginate(null, $this->config->get('columns'));
+        if ($this->table->enablePaginate()) {
+            $collection = $model->paginate($this->config->get('options.rowPerPage'), $this->config->get('columns'));
+        } else {
+            $collection = $model->get($this->config->get('columns'));
+        }
+        
         return tap($collection, function($collection) {
             $this->eagerLoad($collection);
         });

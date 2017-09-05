@@ -230,7 +230,14 @@
         return groups.length ? groups : ['default']; 
       },
       option() {
-        return this.options[this.currentGroup] || {};
+        
+        if (this.options[this.currentGroup]) {
+          return this.options[this.currentGroup];
+        }
+        
+        return {
+          paginate: true
+        };
       }
     },
     beforeMount() {

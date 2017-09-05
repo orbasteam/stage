@@ -22,6 +22,15 @@ class Body extends Element
     }
 
     /**
+     * @return mixed
+     */
+    protected function getListOptions()
+    {
+        $group  = $this->table->getGroup();
+        return $this->table->getConfig("listOptions.$group");
+    }
+
+    /**
      * @return LengthAwarePaginator
      */
     public function getPaginator()
@@ -30,7 +39,8 @@ class Body extends Element
             
             $config = [
                 'columns' => $this->getColumns(),
-                'load'    => $this->getEagerLoadTable()
+                'load'    => $this->getEagerLoadTable(),
+                'options' => $this->getListOptions()
             ];
             
             $this->data = (new DataProvider($this->table, $config))->getPaginator();
