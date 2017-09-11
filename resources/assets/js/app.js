@@ -51,6 +51,7 @@ const app = new Vue({
 
     changeTab(tab) {
       this.activeTab = tab;
+      localStorage.setItem('stage-tab', tab);
     },
 
     startAjaxLoading() {
@@ -84,6 +85,10 @@ const app = new Vue({
 
   mounted() {
     this.loading = false;
+
+    if (localStorage.getItem('stage-tab')) {
+      this.activeTab = localStorage.getItem('stage-tab');
+    }
   },
 
   components: { Column, List, Spinner },

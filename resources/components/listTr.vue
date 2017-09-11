@@ -2,7 +2,7 @@
     <tr>
         <td>
             <div class="movable tag is-medium">
-                <b-icon icon="drag_handle" class="handler"></b-icon>
+                <b-icon icon="reorder" class="handler"></b-icon>
             </div>
         </td>
         <td>
@@ -41,58 +41,59 @@
 </template>
 
 <script>
-    
-    import _ from 'lodash';
-    
-    export default {
-        props: ['element'],
-        data() {
-            return {
-                loading: false,
-                elementTypes: [
-                    {id: 0, name: "Column/Method"},
-                    {id: 1, name: "Presenter"},
-                    {id: 2, name: "Enum"}
-                ]
-            };
-        },
-        methods: {
-            update() {
-                this.$emit('update');
-            },
-            remove() {
-                this.$emit('remove', this.element);
-            },
-            filter(data, match) {
-                match = match ? match.toLowerCase() : '';
-                return data.filter((item) => {
-                    return item.toLowerCase().indexOf(match) >= 0;
-                });
-            }
-        },
-        computed: {
-            enums() {
-                return this.filter(this.$root.enums, this.element.enum);
-            },
-            filterColumns() {
-                let columns = _.keys(this.$root.columns);
-                return this.filter(columns, this.element.column);
-            },
-            defaultName() {
-                
-                if (!this.element.column) {
-                    return '';
-                }
-                
-                let column = this.$root.columns[this.element.column];
-                return column ? column.name : '';
-            }
-        },
-        mounted() {
-            if (this.element.type === undefined) {
-                this.$set(this.element, 'type', 0);
-            }
-            
+
+  import _ from 'lodash';
+
+  export default {
+    props: ['element'],
+    data() {
+      return {
+        loading: false,
+        elementTypes: [
+          {id: 0, name: "Column/Method"},
+          {id: 1, name: "Presenter"},
+          {id: 2, name: "Enum"},
+          {id: 3, name: "Action"}
+        ]
+      };
+    },
+    methods: {
+      update() {
+        this.$emit('update');
+      },
+      remove() {
+        this.$emit('remove', this.element);
+      },
+      filter(data, match) {
+        match = match ? match.toLowerCase() : '';
+        return data.filter((item) => {
+          return item.toLowerCase().indexOf(match) >= 0;
+        });
+      }
+    },
+    computed: {
+      enums() {
+        return this.filter(this.$root.enums, this.element.enum);
+      },
+      filterColumns() {
+        let columns = _.keys(this.$root.columns);
+        return this.filter(columns, this.element.column);
+      },
+      defaultName() {
+
+        if (!this.element.column) {
+          return '';
         }
+
+        let column = this.$root.columns[this.element.column];
+        return column ? column.name : '';
+      }
+    },
+    mounted() {
+      if (this.element.type === undefined) {
+        this.$set(this.element, 'type', 0);
+      }
+
     }
+  }
 </script>

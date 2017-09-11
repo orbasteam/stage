@@ -1,6 +1,6 @@
 <template>
     
-    <div>
+    <section class="section">
         <div class="columns">
 
             <div class="column is-narrow">
@@ -39,6 +39,14 @@
                                :placeholder="defaultOptions.rowPerPage"
                                @update="updateList"
                 ></list-per-page>
+            </div>
+            
+            <div class="column">
+                <div class="pull-right is-normal">
+                    <b-tooltip label="row actions">
+                        <row-action :option="option" @update="updateList"></row-action>
+                    </b-tooltip>
+                </div>
             </div>
 
         </div>
@@ -84,9 +92,15 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
 </template>
+
+<style scoped>
+    section.section {
+        padding-top: 1rem;
+    }
+</style>
 
 <script>
 
@@ -95,6 +109,7 @@
   import ListPerPage from './listPerPage';
   import randomString from 'randomstring';
   import Draggable from 'vuedraggable';
+  import RowAction from './rowAction';
 
   export default {
     props: ['elements', 'options', 'defaultOptions'],
@@ -236,14 +251,15 @@
         }
         
         return {
-          paginate: true
+          paginate: true,
+          actions: []
         };
       }
     },
     beforeMount() {
       this.option = {};
     },
-    components: { ListTr, Draggable, ListPerPage },
+    components: { ListTr, Draggable, ListPerPage, RowAction },
   }
 
 </script>

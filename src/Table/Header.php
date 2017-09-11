@@ -16,13 +16,10 @@ class Header extends Element
         $result = new Collection();
         foreach ($this->getListConfig() as $data) {
 
-            $column = $data['column'];
-            $name   = isset($data['name']) ? $data['name'] : $this->getColumn($column, 'name');
+            $column = $data['column'] ?? null;
+            $name = isset($data['name']) ? $data['name'] : $this->getColumn($column, 'name');
             
-            $result[] = [
-                'column' => $column,
-                'name'   => $name
-            ];
+            $result[] = array_merge($data, ['name' => $name]);
         }
         
         return $result;

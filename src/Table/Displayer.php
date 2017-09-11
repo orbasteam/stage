@@ -5,12 +5,13 @@ namespace Orbas\Stage\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 use Orbas\Stage\Http\Services\ListService;
+use Orbas\Stage\Table\Displayers\Factory;
 use Orbas\Stage\Table\Formatter\Factory as Formatter;
 
 class Displayer
 {
     const SEPARATOR = '|';
-    
+
     /**
      * @var $this
      */
@@ -33,47 +34,16 @@ class Displayer
      * @param string $column
      * @param Model  $entity
      * @param array  $config
+     * @param array  $listConfig
      *
      * @return mixed
      */
-    public static function output($column, Model $entity, $config = [])
+    public static function output($column, Model $entity, $config = [], $listConfig = [])
     {
         $instance = self::instance();
-        $value = $instance->getValue($column, $entity, $config);
+        $value = Factory::value($column, $entity, $config);
         
         return $instance->format($value, $config);
-    }
-
-    /**
-     * get value from model or presenter
-     *
-     * @param string $column
-     * @param Model  $item
-     * @param array  $config
-     *
-     * @return mixed
-     */
-    protected function getValue($column, Model $item, $config)
-    {
-        list($column, $attribute) = self::parseColumnName($column);
-        
-        if ($attribute) {
-            $item = $item->$column;
-            $column = $attribute;
-        }
-        
-        if (isset($config['type'])) {
-            
-            switch ($config['type']) {
-                case ListService::PRESENTER:
-                    return $item->present()->$column;
-                case ListService::ENUM:
-                    $enum = $config['enum'] ?? null;
-                    return $item->present()->enum($column, $enum);
-            }
-        }
-        
-        return call_user_func_array([$item, 'getAttribute'], [$column]);
     }
 
     /**
@@ -128,7 +98,8 @@ class Displayer
         if (Str::contains($column, self::SEPARATOR)) {
             return explode(self::SEPARATOR, $column);
         }
-        
+
         return [$column, ''];
     }
+
 }

@@ -58,21 +58,21 @@ abstract class Element
     }
 
     /**
-     * @param string $column
+     * @param string $token
      * @param array  $key
      *
      * @return mixed
      * @throws AppException
      */
-    protected function getListColumn($column, ...$key)
+    protected function getListColumnByToken($token, ...$key)
     {
         $data = $this->getListConfig();
-        $search = collect($data)->search(function($item) use ($column) {
-            return $item['column'] == $column;
+        $search = collect($data)->search(function($item) use ($token) {
+            return $item['token'] == $token;
         });
-
+        
         if ($search === false) {
-            throw new AppException("list config can't find column: $column");
+            return [];
         }
         
         return $this->getConfig('list', $this->getGroup(), $search, $key);

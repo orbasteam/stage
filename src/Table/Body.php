@@ -26,7 +26,7 @@ class Body extends Element
      */
     protected function getListOptions()
     {
-        $group  = $this->table->getGroup();
+        $group = $this->table->getGroup();
         return $this->table->getConfig("listOptions.$group");
     }
 
@@ -58,15 +58,20 @@ class Body extends Element
     {
         $result = new Collection();
         $header = $this->table->getHeader();
+        $listOptions = $this->getListOptions();
 
         foreach ($this->getPaginator() as $item) {
+            
             $row = [];
-
+            
             foreach ($header as $config) {
-                $column = $config['column'];
-                $row[$column] = Displayer::output($column, $item, $this->getListColumn($column));
+                $column = $config['column'] ?? null;
+                $row[] = Displayer::output($column, $item, [
+                    'options' => $listOptions,
+                    'config'  => $this->getListColumnByToken($config['token'])
+                ]);
             }
-
+            
             $result->push($row);
         }
         

@@ -9,9 +9,9 @@
     <tbody>
     @foreach($table->getBody()->items() as $item)
         <tr>
-            @foreach($table->getHeader() as $header)
+            @foreach($item as $value)
                 <td>
-                    {!! $item[$header['column']] !!}
+                    {!! $value !!}
                 </td>
             @endforeach
         </tr>
