@@ -17,10 +17,10 @@
                     <table class="table is-striped is-fullwidth">
                         <thead>
                             <tr>
-                                <th></th>
-                                <th></th>
-                                <th>icon</th>
-                                <th>text</th>
+                                <th class="operation"></th>
+                                <th class="operation"></th>
+                                <th class="setting-icon">icon</th>
+                                <th class="setting-text">text</th>
                                 <th>url</th>
                             </tr>
                         </thead>
@@ -75,16 +75,16 @@
 </template>
 
 <style scoped>
+    .operation {
+        width: 50px;
+    }
+
     .setting-icon {
-        width: 20%;
+        width: 16%;
     }
 
     .setting-text {
-        width: 20%;
-    }
-
-    .setting-uri {
-        width: 50%;
+        width: 16%;
     }
 </style>
 

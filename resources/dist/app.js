@@ -55841,7 +55841,7 @@ exports = module.exports = __webpack_require__(15)(undefined);
 
 
 // module
-exports.push([module.i, "\n.setting-icon[data-v-401f4360] {\n    width: 20%;\n}\n.setting-text[data-v-401f4360] {\n    width: 20%;\n}\n.setting-uri[data-v-401f4360] {\n    width: 50%;\n}\n", ""]);
+exports.push([module.i, "\n.operation[data-v-401f4360] {\n    width: 50px;\n}\n.setting-icon[data-v-401f4360] {\n    width: 16%;\n}\n.setting-text[data-v-401f4360] {\n    width: 16%;\n}\n", ""]);
 
 // exports
 
@@ -56021,7 +56021,15 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     staticClass: "modal-card-body"
   }, [_c('table', {
     staticClass: "table is-striped is-fullwidth"
-  }, [_c('thead', [_c('tr', [_c('th'), _vm._v(" "), _c('th'), _vm._v(" "), _c('th', [_vm._v("icon")]), _vm._v(" "), _c('th', [_vm._v("text")]), _vm._v(" "), _c('th', [_vm._v("url")])])]), _vm._v(" "), _c('draggable', {
+  }, [_c('thead', [_c('tr', [_c('th', {
+    staticClass: "operation"
+  }), _vm._v(" "), _c('th', {
+    staticClass: "operation"
+  }), _vm._v(" "), _c('th', {
+    staticClass: "setting-icon"
+  }, [_vm._v("icon")]), _vm._v(" "), _c('th', {
+    staticClass: "setting-text"
+  }, [_vm._v("text")]), _vm._v(" "), _c('th', [_vm._v("url")])])]), _vm._v(" "), _c('draggable', {
     attrs: {
       "element": "tbody",
       "options": _vm.draggableOptions
