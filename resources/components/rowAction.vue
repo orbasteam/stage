@@ -24,9 +24,9 @@
                                 <th>url</th>
                             </tr>
                         </thead>
-                        <draggable v-model="option.actions" 
-                                   element="tbody" 
-                                   :options="draggableOptions" 
+                        <draggable v-model="option.actions"
+                                   element="tbody"
+                                   :options="draggableOptions"
                                    @end="$emit('update')">
                             <tr v-for="(action, index) in option.actions" class="row-action-item">
                                 <td>
@@ -66,9 +66,9 @@
                     </table>
 
                 </section>
-                
+
             </div>
-            
+
         </b-modal>
     </div>
 
@@ -91,7 +91,7 @@
 <script>
 
   import Draggable from 'vuedraggable';
-    
+
   export default {
     props: ['option'],
     data() {
@@ -105,6 +105,11 @@
     },
     methods: {
       add() {
+
+        if (this.option.actions === undefined) {
+          this.option.actions = [];
+        }
+
         this.option.actions.push({});
       },
       remove(index) {

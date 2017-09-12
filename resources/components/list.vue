@@ -1,5 +1,5 @@
 <template>
-    
+
     <section class="section">
         <div class="columns">
 
@@ -11,7 +11,7 @@
                     <b-select v-model="currentGroup">
                         <option :value="group" v-for="group in groups" :key="group" v-text="group"></option>
                     </b-select>
-                    
+
                     <p class="control">
                         <b-dropdown>
 
@@ -23,7 +23,7 @@
                                 <b-icon icon="clear"></b-icon>
                                 Destroy
                             </b-dropdown-item>
-                            
+
                             <b-dropdown-item @click="createGroup" class="has-text-primary">
                                 <b-icon icon="add"></b-icon>
                                 Create
@@ -35,12 +35,12 @@
             </div>
 
             <div class="column is-narrow">
-                <list-per-page :option="option" 
+                <list-per-page :option="option"
                                :placeholder="defaultOptions.rowPerPage"
                                @update="updateList"
                 ></list-per-page>
             </div>
-            
+
             <div class="column">
                 <div class="pull-right is-normal">
                     <b-tooltip label="row actions">
@@ -50,9 +50,9 @@
             </div>
 
         </div>
-        
+
         <div class="columns">
-            
+
             <div class="column">
                 <div class="box">
                     <table class="table is-striped is-fullwidth">
@@ -130,17 +130,17 @@
       },
 
       updateList: _.debounce(function () {
-        
+
         this.$root.startAjaxLoading();
         let items = [];
-        
+
         _.map(this.list, (element) => {
           items.push(_.omitBy(element, _.isNil));
         });
 
         this.$set(this.elements, this.currentGroup, items);
         this.$set(this.options, this.currentGroup, this.option);
-        
+
         axios.put(this.updateListPath(), {
           data: {
             data: items,
@@ -242,14 +242,19 @@
       },
       groups() {
         let groups = _.keys(this.elements);
-        return groups.length ? groups : ['default']; 
+        return groups.length ? groups : ['default'];
       },
       option() {
-        
+
         if (this.options[this.currentGroup]) {
+
+          if (this.options[this.currentGroup].actions === undefined) {
+            this.$set(this.options[this.currentGroup], 'actions', []);
+          }
+
           return this.options[this.currentGroup];
         }
-        
+
         return {
           paginate: true,
           actions: []
