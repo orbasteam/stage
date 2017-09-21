@@ -4,7 +4,6 @@ namespace Orbas\Stage\Table;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
-use Orbas\Stage\Http\Services\ListService;
 use Orbas\Stage\Table\Displayers\Factory;
 use Orbas\Stage\Table\Formatter\Factory as Formatter;
 

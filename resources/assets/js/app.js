@@ -81,6 +81,10 @@ const app = new Vue({
         });
     },
 
+    columnDefaultName(column) {
+      return this.columns[column] ? this.columns[column].name : '';
+    },
+
   },
 
   mounted() {

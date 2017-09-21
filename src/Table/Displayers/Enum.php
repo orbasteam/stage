@@ -8,7 +8,7 @@ class Enum implements Displayable
 {
     public function show($column, Model $item, $config)
     {
-        $enum = $config['config']['enum'] ?? null;
+        $enum = $config['enum'] ?? null;
 
         return $item->present()->enum($column, $enum);
     }

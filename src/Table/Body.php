@@ -58,7 +58,6 @@ class Body extends Element
     {
         $result = new Collection();
         $header = $this->table->getHeader();
-        $listOptions = $this->getListOptions();
 
         foreach ($this->getPaginator() as $item) {
             
@@ -66,10 +65,7 @@ class Body extends Element
             
             foreach ($header as $config) {
                 $column = $config['column'] ?? null;
-                $row[] = Displayer::output($column, $item, [
-                    'options' => $listOptions,
-                    'config'  => $this->getListColumnByToken($config['token'])
-                ]);
+                $row[] = Displayer::output($column, $item, $this->getListColumnByToken($config['token']));
             }
             
             $result->push($row);

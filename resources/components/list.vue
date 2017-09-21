@@ -1,5 +1,5 @@
 <template>
-
+    
     <section class="section">
         <div class="columns">
 
@@ -11,7 +11,7 @@
                     <b-select v-model="currentGroup">
                         <option :value="group" v-for="group in groups" :key="group" v-text="group"></option>
                     </b-select>
-
+                    
                     <p class="control">
                         <b-dropdown>
 
@@ -23,7 +23,7 @@
                                 <b-icon icon="clear"></b-icon>
                                 Destroy
                             </b-dropdown-item>
-
+                            
                             <b-dropdown-item @click="createGroup" class="has-text-primary">
                                 <b-icon icon="add"></b-icon>
                                 Create
@@ -35,63 +35,42 @@
             </div>
 
             <div class="column is-narrow">
-                <list-per-page :option="option"
+                <list-per-page :option="option" 
                                :placeholder="defaultOptions.rowPerPage"
                                @update="updateList"
                 ></list-per-page>
             </div>
-
-            <div class="column">
-                <div class="pull-right is-normal">
-                    <b-tooltip label="row actions">
-                        <row-action :option="option" @update="updateList"></row-action>
-                    </b-tooltip>
-                </div>
-            </div>
-
+            
         </div>
 
-        <div class="columns">
-
-            <div class="column">
-                <div class="box">
-                    <table class="table is-striped is-fullwidth">
-                        <thead>
-                        <tr>
-                            <th></th>
-                            <th></th>
-                            <th>Type</th>
-                            <th>Method</th>
-                            <th>Name</th>
-                            <th>Enum</th>
-                            <th>Formatter</th>
-                        </tr>
-                        </thead>
-                        <draggable v-model="list" element="tbody" :options="draggableOptions" @end="updateList">
-                            <tr is="list-tr" :element="element" v-for="element in list"
-                                @remove="remove" @update="updateList" class="item"
-                                :key="generateKey(element)"></tr>
-                        </draggable>
-                        <tfoot>
-                        <tr>
-                            <td>
-                                <button class="button is-info is-outlined" @click="createElement">
+        <div is="draggable" v-model="list" :options="draggableOptions" class="columns is-multiline" @end="updateList">
+            <div class="column is-4-tablet is-3-desktop is-2-fullhd item" v-for="element in list">
+                <list-element :element="element" 
+                              @update="updateList" 
+                              @remove="remove"
+                              :key="generateKey(element)"
+                ></list-element>
+            </div>
+            
+            <div class="column is-4-tablet is-3-desktop is-2-fullhd">
+                <div class="card">
+                    <div class="card-content">
+                        <b-field>
+                            <b-select v-model="newElement">
+                                <option v-for="type in $elementTypes" :value="type.id" v-text="type.name"></option>
+                            </b-select>
+                            <p class="control">
+                                <span class="button is-primary" @click="createElement">
                                     <b-icon icon="add"></b-icon>
-                                </button>
-                            </td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        </tfoot>
-                    </table>
-
+                                </span>
+                            </p>
+                        </b-field>
+                        
+                    </div>
                 </div>
             </div>
         </div>
+        
     </section>
 
 </template>
@@ -105,11 +84,18 @@
 <script>
 
   import _ from 'lodash';
-  import ListTr from './listTr';
+  import ListElement from './listElement';
   import ListPerPage from './listPerPage';
   import randomString from 'randomstring';
   import Draggable from 'vuedraggable';
-  import RowAction from './rowAction';
+  import Vue from 'vue';
+  
+  Vue.prototype.$elementTypes = [
+    {id: 0, name: "Column/Method"},
+    {id: 1, name: "Presenter"},
+    {id: 2, name: "Enum"},
+    {id: 3, name: "Custom"}
+  ];
 
   export default {
     props: ['elements', 'options', 'defaultOptions'],
@@ -120,7 +106,8 @@
           draggable: '.item',
           handle: '.handler'
         },
-        option: {}
+        option: {},
+        newElement: 0
       }
     },
     methods: {
@@ -130,17 +117,17 @@
       },
 
       updateList: _.debounce(function () {
-
+        
         this.$root.startAjaxLoading();
         let items = [];
-
+        
         _.map(this.list, (element) => {
           items.push(_.omitBy(element, _.isNil));
         });
 
         this.$set(this.elements, this.currentGroup, items);
         this.$set(this.options, this.currentGroup, this.option);
-
+        
         axios.put(this.updateListPath(), {
           data: {
             data: items,
@@ -160,6 +147,7 @@
 
         return element.token;
       },
+      
       destroyGroup() {
 
         let table = this.$root.table;
@@ -192,14 +180,18 @@
           }
         });
       },
+      
       createElement() {
 
         if (!this.elements[this.currentGroup]) {
           this.$set(this.elements, this.currentGroup, []);
         }
 
-        this.elements[this.currentGroup].push({});
+        this.elements[this.currentGroup].push({
+          type: this.newElement
+        });
       },
+      
       createGroup() {
 
         let table = this.$root.table;
@@ -223,10 +215,12 @@
           }
         });
       },
+      
       remove(element) {
         this.updateList();
         this._removeColumn(element);
       },
+      
       _removeColumn(element) {
         let group = this.currentGroup;
         let key = _.findKey(this.elements[group], function (data) {
@@ -236,35 +230,35 @@
         this.elements[group].splice(key, 1);
       }
     },
+    
     asyncComputed: {
       list() {
         return this.elements[this.currentGroup] || [];
       },
+      
       groups() {
         let groups = _.keys(this.elements);
-        return groups.length ? groups : ['default'];
+        return groups.length ? groups : ['default']; 
       },
+      
       option() {
-
+        
         if (this.options[this.currentGroup]) {
-
-          if (this.options[this.currentGroup].actions === undefined) {
-            this.$set(this.options[this.currentGroup], 'actions', []);
-          }
-
           return this.options[this.currentGroup];
         }
-
+        
         return {
           paginate: true,
           actions: []
         };
       }
     },
+    
     beforeMount() {
       this.option = {};
     },
-    components: { ListTr, Draggable, ListPerPage, RowAction },
+    
+    components: { ListElement, Draggable, ListPerPage },
   }
 
 </script>

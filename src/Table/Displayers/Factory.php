@@ -11,7 +11,7 @@ class Factory
     const COLUMN    = 0;
     const PRESENTER = 1;
     const ENUM      = 2;
-    const ACTION    = 3;
+    const CUSTOM    = 3;
 
     /**
      * @var array
@@ -32,10 +32,11 @@ class Factory
      */
     public static function value($column, Model $item, $config)
     {
-        if(!isset($config['config']['type'])) {
+        if(!isset($config['type'])) {
+            return null;
         }
         
-        return self::getClass($config['config']['type'])->show($column, $item, $config);
+        return self::getClass($config['type'])->show($column, $item, $config);
     }
 
     /**
