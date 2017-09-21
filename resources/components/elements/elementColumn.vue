@@ -2,7 +2,11 @@
 
     <div>
         <b-field label="Column">
-            <b-input v-model="element.column" @input="$emit('update')"></b-input>
+            <b-autocomplete
+                    v-model="element.column"
+                    :data="columns"
+                    @input="$emit('update')">
+            </b-autocomplete>
         </b-field>
 
         <b-field label="Name">
@@ -10,7 +14,11 @@
         </b-field>
 
         <b-field label="Enum">
-            <b-input v-model="element.enum" @input="$emit('update')"></b-input>
+            <b-autocomplete
+                    v-model="element.enum"
+                    :data="enums"
+                    @input="$emit('update')">
+            </b-autocomplete>
         </b-field>
 
         <b-field label="Formatter">
@@ -22,12 +30,28 @@
 </template>
 
 <script>
+  import _ from 'lodash';
   export default {
     props: ['element'],
     computed: {
       defaultName() {
         return this.$root.columnDefaultName(this.element.column);
+      },
+      enums() {
+        return this.filter(this.$root.enums, this.element.enum);
+      },
+      columns() {
+        let columns = _.keys(this.$root.columns);
+        return this.filter(columns, this.element.column);
       }
+    },
+    methods: {
+      filter(data, match) {
+        match = match ? match.toLowerCase() : '';
+        return data.filter((item) => {
+          return item.toLowerCase().indexOf(match) >= 0;
+        });
+      },
     }
   }
 </script>
