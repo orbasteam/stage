@@ -46,7 +46,7 @@ class Item extends Repository
      */
     public function currentOrder()
     {
-        if (!$this->currentOrder) {
+        if ($this->currentOrder === false) {
 
             $this->currentOrder = '';
             
