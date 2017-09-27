@@ -5,6 +5,7 @@
             <b-autocomplete
                     v-model="element.column"
                     :data="columns"
+                    :keep-first="true"
                     @input="$emit('update')">
             </b-autocomplete>
         </b-field>
@@ -17,12 +18,17 @@
             <b-autocomplete
                     v-model="element.enum"
                     :data="enums"
+                    :keep-first="true"
                     @input="$emit('update')">
             </b-autocomplete>
         </b-field>
 
         <b-field label="Formatter">
             <b-input v-model="element.formatter" @input="$emit('update')"></b-input>
+        </b-field>
+        
+        <b-field label="Order">
+            <b-switch v-model="element.order" @input="$emit('update')"></b-switch>
         </b-field>
         
     </div>

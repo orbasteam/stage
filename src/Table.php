@@ -77,11 +77,7 @@ class Table
             $this->initConfig();
         }
         
-        if ($key) {
-            return $this->config->get($key);
-        }
-        
-        return $this->config;
+        return $key ? $this->config->get($key) : $this->config;
     }
 
     protected function initConfig()
@@ -127,12 +123,12 @@ class Table
     }
 
     /**
-     * @return Collection
+     * @return Header
      */
     public function getHeader()
     {
         if (!$this->header) {
-            $this->header = (new Header($this))->items();
+            $this->header = new Header($this);
         }
 
         return $this->header;
@@ -209,4 +205,5 @@ class Table
 
         return view($view)->with('table', $this)->render();
     }
+
 }

@@ -1,8 +1,10 @@
 <table class="table">
     <thead>
     <tr>
-        @foreach($table->getHeader() as $item)
-            <th>{{ $item['name'] }}</th>
+        @foreach($table->getHeader()->items() as $item)
+            <th>
+                {!! $item->render() !!}
+            </th>
         @endforeach
     </tr>
     </thead>
@@ -10,9 +12,7 @@
     @foreach($table->getBody()->items() as $item)
         <tr>
             @foreach($item as $value)
-                <td>
-                    {!! $value !!}
-                </td>
+                <td>{!! $value !!}</td>
             @endforeach
         </tr>
     @endforeach

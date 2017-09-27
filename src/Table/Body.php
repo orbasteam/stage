@@ -18,7 +18,7 @@ class Body extends Element
      */
     protected function getHeaderColumns()
     {
-        return $this->table->getHeader()->pluck('column');
+        return $this->table->getHeader()->items()->pluck('column');
     }
 
     /**
@@ -40,7 +40,7 @@ class Body extends Element
             $config = [
                 'columns' => $this->getColumns(),
                 'load'    => $this->getEagerLoadTable(),
-                'options' => $this->getListOptions()
+                'options' => $this->getListOptions(),
             ];
             
             $this->data = (new DataProvider($this->table, $config))->getPaginator();
@@ -57,7 +57,7 @@ class Body extends Element
     public function items()
     {
         $result = new Collection();
-        $header = $this->table->getHeader();
+        $header = $this->table->getHeader()->items();
 
         foreach ($this->getPaginator() as $item) {
             

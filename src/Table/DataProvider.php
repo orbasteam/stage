@@ -2,9 +2,10 @@
 
 namespace Orbas\Stage\Table;
 
+use Closure;
 use Illuminate\Config\Repository;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Orbas\Stage\Table;
+use Orbas\Stage\Table\DataProvider\OrderResolver;
 
 class DataProvider
 {
@@ -19,6 +20,11 @@ class DataProvider
     protected $table;
 
     /**
+     * @var Closure
+     */
+    protected static $orderResolver;
+
+    /**
      * DataProvider constructor.
      *
      * @param Table $table
@@ -31,11 +37,16 @@ class DataProvider
     }
 
     /**
-     * @return LengthAwarePaginator
+     * @return mixed
      */
     public function getPaginator()
     {
         $model = $this->table->getModel()->newQuery();
+        
+        list($order, $direction) = $this->resolveOrder();
+        if ($order) {
+            $model->orderBy($order, $direction);
+        }
         
         $filter = $this->table->getFilter();
         if (is_callable($filter)) {
@@ -65,5 +76,26 @@ class DataProvider
         foreach ($this->config['load'] as $table) {
             $collection->load($table);
         }
+    }
+
+    /**
+     * @param Closure $resolver
+     * 
+     */
+    public static function orderResolver(Closure $resolver)
+    {
+        static::$orderResolver = $resolver;
+    }
+
+    /**
+     * @return array
+     */
+    protected function resolveOrder()
+    {
+        if (is_callable(static::$orderResolver)) {
+            return call_user_func(static::$orderResolver, $this->table);
+        }
+        
+        return OrderResolver::resolve($this->table);
     }
 }

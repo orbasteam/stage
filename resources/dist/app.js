@@ -41199,12 +41199,6 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_3_vue_
 
 window.Vue = __WEBPACK_IMPORTED_MODULE_0_vue___default.a;
 
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
-
 
 
 
@@ -43720,6 +43714,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -43874,6 +43869,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -43911,7 +43913,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('b-autocomplete', {
     attrs: {
-      "data": _vm.columns
+      "data": _vm.columns,
+      "keep-first": true
     },
     on: {
       "input": function($event) {
@@ -43951,7 +43954,8 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
     }
   }, [_c('b-autocomplete', {
     attrs: {
-      "data": _vm.enums
+      "data": _vm.enums,
+      "keep-first": true
     },
     on: {
       "input": function($event) {
@@ -43981,6 +43985,23 @@ module.exports={render:function (){var _vm=this;var _h=_vm.$createElement;var _c
         _vm.element.formatter = $$v
       },
       expression: "element.formatter"
+    }
+  })], 1), _vm._v(" "), _c('b-field', {
+    attrs: {
+      "label": "Order"
+    }
+  }, [_c('b-switch', {
+    on: {
+      "input": function($event) {
+        _vm.$emit('update')
+      }
+    },
+    model: {
+      value: (_vm.element.order),
+      callback: function($$v) {
+        _vm.element.order = $$v
+      },
+      expression: "element.order"
     }
   })], 1)], 1)
 },staticRenderFns: []}

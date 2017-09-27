@@ -52,7 +52,7 @@ abstract class Element
      * @return mixed
      * @throws AppException
      */
-    protected function getListConfig(...$key)
+    public function getListConfig(...$key)
     {
         return $this->getConfig('list', $this->getGroup());
     }
