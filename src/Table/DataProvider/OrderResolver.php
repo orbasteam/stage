@@ -22,7 +22,7 @@ class OrderResolver
             return [$column, $direction];
         }
         
-        return [];
+        return ['', ''];
     }
 
     /**
