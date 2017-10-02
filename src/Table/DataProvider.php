@@ -46,7 +46,7 @@ class DataProvider
         list($order, $direction) = $this->resolveOrder();
         if ($order) {
             $model->orderBy($order, $direction);
-        }
+        } 
         
         $filter = $this->table->getFilter();
         if (is_callable($filter)) {
@@ -92,10 +92,17 @@ class DataProvider
      */
     protected function resolveOrder()
     {
-        if (is_callable(static::$orderResolver)) {
-            return call_user_func(static::$orderResolver, $this->table);
+        list($order, $direction) = is_callable(static::$orderResolver) ?
+            call_user_func(static::$orderResolver, $this->table) :
+            OrderResolver::resolve($this->table);
+ 
+        if ($order) {
+            return [$order, $direction];
         }
         
-        return OrderResolver::resolve($this->table);
+        return [
+            $this->config->get('options.order'),
+            $this->config->get('options.orderDirection')
+        ];
     }
 }

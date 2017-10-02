@@ -35,6 +35,21 @@
             </div>
 
             <div class="column is-narrow">
+                <b-field>
+                    <p class="control">
+                        <span class="button is-static">Order</span>
+                    </p>
+                    <b-input style="width: 130px" v-model="option.order" @input="updateList"></b-input>
+                    <p class="control">
+                        <b-select v-model="option.orderDirection" @change.native="updateList">
+                            <option value="desc">desc</option>
+                            <option value="asc">asc</option>
+                        </b-select>
+                    </p>
+                </b-field>
+            </div>
+
+            <div class="column is-narrow">
                 <list-per-page :option="option" 
                                :placeholder="defaultOptions.rowPerPage"
                                @update="updateList"
@@ -242,15 +257,19 @@
       },
       
       option() {
-        
-        if (this.options[this.currentGroup]) {
-          return this.options[this.currentGroup];
-        }
-        
-        return {
+
+        let defaultOptions = {
+          order: '',
           paginate: true,
-          actions: []
+          orderDirection: 'desc'
         };
+
+        if (this.options[this.currentGroup]) {
+          let option = this.options[this.currentGroup];
+          return _.merge(option, defaultOptions);
+        }
+       
+        return defaultOptions;
       }
     },
     
