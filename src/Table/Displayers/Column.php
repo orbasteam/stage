@@ -17,6 +17,6 @@ class Column implements Displayable
             $column = $attribute;
         }
 
-        return call_user_func_array([$item, 'getAttribute'], [$column]);
+        return $item ? call_user_func_array([$item, 'getAttribute'], [$column]) : '';
     }
 }
