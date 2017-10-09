@@ -1,3 +1,8 @@
+@import "~bulma/sass/utilities/initial-variables";
+@import "~buefy/src/scss/utils/_theme-variables";
+@import "~bulma/bulma";
+@import "~buefy/src/scss/buefy";
+
 .page-spinner {
 
   position: absolute;
@@ -21,7 +26,7 @@
 
     .brand-name {
       font-family: 'Bowlby One SC', cursive;
-      color: #303c42;
+      color: #fff;
       font-size: 31px;
       text-transform: uppercase;
       margin-left: 15px;
@@ -31,4 +36,22 @@
 
 .movable {
   cursor: move;
+}
+
+.navbar.is-primary {
+  .dropdown {
+    .navbar-item {
+      color: $primary-invert;
+
+      &:hover {
+        background: darken($primary, 5%);
+      }
+    }
+
+    &.is-active {
+      .navbar-item {
+        background: darken($primary, 5%);
+      }
+    }
+  }
 }

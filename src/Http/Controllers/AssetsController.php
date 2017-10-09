@@ -34,7 +34,7 @@ class AssetsController extends Controller
             throw new AppException('Assets haven\'t build yet, please run "npm run production"');
         }
 
-        return response(File::get($path), 200, ['Content-Type' => 'application/javascript']);
+        return $this->readFile($path, 'application/javascript');
     }
 
     /**
@@ -50,8 +50,8 @@ class AssetsController extends Controller
         if (!file_exists($path)) {
             throw new AppException('Assets haven\'t build yet, please run "npm run production"');
         }
-
-        return response(File::get($path), 200, ['Content-Type' => 'text/css']);
+        
+        return $this->readFile($path, 'text/css');
     }
 
     /**
@@ -66,9 +66,17 @@ class AssetsController extends Controller
         $path = $this->resourcePath('assets/images/' . $image);
 
         if (File::exists($path)) {
-            return response(File::get($path), 200, ['Content-Type' => File::mimeType($path)]);
+            return $this->readFile($path, File::mimeType($path));
         }
         
         return abort('404');
+    }
+
+    protected function readFile($path, $contentType)
+    {
+        return response(File::get($path), 200)
+            ->header('Cache-Control', 'max-age=31536000')
+            ->header('Content-Type', $contentType)
+            ->setEtag(md5_file($path));
     }
 }

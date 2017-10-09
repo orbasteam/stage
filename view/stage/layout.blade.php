@@ -21,17 +21,22 @@
         <spinner></spinner>
     </div>
 
-    <nav class="navbar has-shadow is-primary">
+    <nav class="navbar is-primary">
         
         <div class="container">
             
             <div class="navbar-brand">
                 <a class="is-brand nav-item" href="{{ route('stage-setup.index') }}">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%">
-                        <title/>
-                        <g data-name="Cylinder Hat" id="Cylinder_Hat">
-                            <path d="M20,11.42V9.5a29.59,29.59,0,0,1,.9-5.7s0,0,0,0A.49.49,0,0,0,21,3.5C21,2.26,16.11,2,12,2S3,2.26,3,3.5a.48.48,0,0,0,.08.26s0,0,0,0A28.75,28.75,0,0,1,4,9.5v1.92c-2.76.59-4,2-4,4.58,0,3.25,5.5,6,12,6s12-2.75,12-6C24,13.43,22.76,12,20,11.42Zm-1,4a.48.48,0,0,1-.24.43C18,16.31,16.07,17,12,17s-6-.69-6.76-1.11A.48.48,0,0,1,5,15.46V14.25A23.58,23.58,0,0,0,12,15a23.58,23.58,0,0,0,7-.75Z"
-                                  style="fill:#303c42"/>
+                    <svg width="45" height="45" xmlns="http://www.w3.org/2000/svg" style="vector-effect: non-scaling-stroke;" stroke="null">
+                        <title style="vector-effect: non-scaling-stroke;" stroke="null"/>
+
+                        <g stroke="null">
+                            <title stroke="null">background</title>
+                            <rect stroke="null" fill="none" id="canvas_background" height="47" width="47" y="-1" x="-1"/>
+                        </g>
+                        <g stroke="null">
+                            <title stroke="null">Layer 1</title>
+                            <path stroke="null" id="svg_1" fill="#ffffff" d="m35.479729,17.845977l0,-3.083659a47.523676,47.523676 0 0 1 1.445465,-9.154611s0,0 0,0a0.786975,0.786975 0 0 0 0.160607,-0.481822c0,-1.991529 -7.853693,-2.409108 -14.45465,-2.409108s-14.45465,0.417579 -14.45465,2.409108a0.770915,0.770915 0 0 0 0.128486,0.417579s0,0 0,0a46.174575,46.174575 0 0 1 1.477586,9.218854l0,3.083659c-4.432759,0.947583 -6.424289,3.212144 -6.424289,7.355811c0,5.219735 8.833397,9.636433 19.272866,9.636433s19.272866,-4.416698 19.272866,-9.636433c0,-4.127605 -1.991529,-6.424289 -6.424289,-7.355811zm-1.606072,6.424289a0.770915,0.770915 0 0 1 -0.385457,0.690611c-1.220615,0.738793 -4.320334,1.846983 -10.857048,1.846983s-9.636433,-1.10819 -10.857048,-1.78274a0.770915,0.770915 0 0 1 -0.385457,-0.690611l0,-1.943347a37.871182,37.871182 0 0 0 11.242505,1.204554a37.871182,37.871182 0 0 0 11.242505,-1.204554l0,1.879104z"/>
                         </g>
                     </svg>
                     <span class="brand-name">STAGE</span>
@@ -51,20 +56,16 @@
                         <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
                     </div>
 
-                    <div class="nav-item">
-
-                        <b-field>
-                            <p class="control">
-                                <span class="button is-static">Table</span>
-                            </p>
-                            <b-select placeholder="Select Table" @input="selectTable" v-model="table">
-                                @foreach($tables as $table)
-                                    <option>{{$table}}</option>
-                                @endforeach
-                            </b-select>
-                        </b-field>
-
-                    </div>
+                    <b-dropdown v-model="table" position="is-bottom-left">
+                        <a class="navbar-item" slot="trigger">
+                            <span v-if="table" v-text="table"></span>
+                            <span v-else>Select Table</span>
+                            <b-icon icon="arrow_drop_down"></b-icon>
+                        </a>
+                        @foreach($tables as $table)
+                            <b-dropdown-item @click="selectTable" value="{{$table}}">{{$table}}</b-dropdown-item>
+                        @endforeach
+                    </b-dropdown>
 
                 </div>
             </div>
@@ -85,6 +86,7 @@
     app.routePrefix = '{{ config('stage.global.route') }}';
     @if(request('table'))
         app.table = '{{ request('table') }}';
+        app.selectTable();
     @endif
     
     @if($enums)

@@ -13,19 +13,10 @@ import AsyncComputed from 'vue-async-computed'
 
 import Spinner from 'vue-loading-spinner/src/components/RotateSquare2';
 
-import 'buefy/lib/buefy.css';
-
 Vue.use(Buefy);
 Vue.use(AsyncComputed);
 
 window.Vue = Vue;
-
-
-/**
- * Next, we will create a fresh Vue application instance and attach it to
- * the page. Then, you may begin adding components to this application
- * or customize the JavaScript scaffolding to fit your unique needs.
- */
 
 import Column from '../../components/column';
 import List from '../../components/list';
@@ -33,7 +24,7 @@ import List from '../../components/list';
 const app = new Vue({
   el: '#app',
   data: {
-    table: [],
+    table: null,
     loading: true,
     ajaxLoading: false,
     routePrefix: 'stage-setup',
@@ -66,7 +57,7 @@ const app = new Vue({
       return `/${this.routePrefix}/${_.trim(uri, '/')}`;
     },
 
-    selectTable() {
+    selectTable(value) {
       this.loading = true;
 
       axios.get(this.url(`/column/${this.table}`))
