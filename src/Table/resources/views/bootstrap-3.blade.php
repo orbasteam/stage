@@ -19,4 +19,13 @@
     </tbody>
 </table>
 
-{!! $table->paginator() !!}
+<div class="row">
+    <div class="col-md-6">
+        {!! $table->paginator() !!}
+    </div>
+    <div class="col-md-6">
+        <p class="text-right">
+            total <span class="label label-default">{{$table->getBody()->getPaginator()->total()}}</span> records
+        </p>
+    </div>
+</div>
