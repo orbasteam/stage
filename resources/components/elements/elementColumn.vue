@@ -26,13 +26,13 @@
         <b-field label="Formatter">
             <b-input v-model="element.formatter" @input="$emit('update')"></b-input>
         </b-field>
-        
+
         <b-field label="Order">
             <b-switch v-model="element.order" @input="$emit('update')"></b-switch>
         </b-field>
-        
+
     </div>
-    
+
 </template>
 
 <script>
@@ -58,6 +58,14 @@
           return item.toLowerCase().indexOf(match) >= 0;
         });
       },
-    }
+    },
+    beforeMount() {
+      _.forEach(['column', 'enum'], key => {
+        if (this.element[key] === undefined) {
+          this.element[key] = '';
+        }
+      });
+    },
   }
 </script>
+
