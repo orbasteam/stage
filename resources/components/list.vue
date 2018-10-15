@@ -255,7 +255,7 @@
         let groups = _.keys(this.elements);
         return groups.length ? groups : ['default']; 
       },
-      
+
       option() {
 
         let defaultOptions = {
@@ -265,10 +265,9 @@
         };
 
         if (this.options[this.currentGroup]) {
-          let option = this.options[this.currentGroup];
-          return _.merge(option, defaultOptions);
+          return this.options[this.currentGroup];
         }
-       
+
         return defaultOptions;
       }
     },
@@ -276,7 +275,7 @@
     beforeMount() {
       this.option = {};
     },
-    
+
     components: { ListElement, Draggable, ListPerPage },
   }
 
