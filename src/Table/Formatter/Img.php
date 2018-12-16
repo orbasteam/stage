@@ -13,7 +13,7 @@ class Img implements Contract
         $width = isset($params[0]) ? 'width="' . $params[0] . '"' : '';
         $height = isset($params[1]) ? 'height="' . $params[1] . '"' : '';
 
-        return "'<img src=\"$value\" $width $height>'";
+        return "<img src=\"$value\" $width $height>";
     }
 
     /**
